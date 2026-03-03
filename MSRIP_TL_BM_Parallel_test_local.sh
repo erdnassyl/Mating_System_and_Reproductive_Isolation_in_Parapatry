@@ -20,7 +20,7 @@ fi
 echo "Compilation réussie !"
 
 # Paramètres fixes
-threshold=10000000
+threshold=10000
 iteration=1
 span=0
 interval=10
@@ -38,13 +38,13 @@ do
   do
    for self_r_2 in 0 
    do
-    for mu_1 in 2.5e-7
+    for mu_1 in 2.5e-4
     do
-     for mu_2 in 2.5e-7
+     for mu_2 in 2.5e-4
      do
       for ha_1 in 0.5
       do
-       for sa_1 in 0
+       for sa_1 in 0.1
        do
         for hb_1 in 0.5
         do
@@ -52,7 +52,7 @@ do
          do
           for ha_2 in 0.5
           do
-           for sa_2 in 0
+           for sa_2 in 0.1
            do
             for hb_2 in 0.5
             do
@@ -64,23 +64,23 @@ do
                do
                 for h_B_1 in 0.5
                 do
-                 for s_B_1 in 0 
+                 for s_B_1 in 0.1
                  do
                   for s_B_exp_1 in -4
                   do
                    for h_B_2 in 0.5
                    do
-                    for s_B_2 in 0 
+                    for s_B_2 in 0.1
                     do
                      for s_B_exp_2 in -4
                      do
-                      for m_h_1 in 0 
+                      for m_h_1 in 0.4
                       do
-                       for m_h_2 in 0 
+                       for m_h_2 in 0
                        do
-                        for m_d_1 in 0 
+                        for m_d_1 in 0
                         do
-                         for m_d_2 in 0 
+                         for m_d_2 in 0
                          do
                           echo "Running..."
                           ./msri.exe ${threshold} ${iteration} ${span} ${interval} \
