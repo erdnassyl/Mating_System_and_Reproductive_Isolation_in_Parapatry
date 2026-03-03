@@ -94,22 +94,26 @@ int main(int, char* argv[]) {
   mu_Aa_2=mu_Bb_2=atof(argv[10]);
   
   ha_1=atof(argv[11]);
-  sa_1=atof(argv[12]);
-  ha_2=atof(argv[13]);
+  sa_1=atof(argv[12]); 
+  ha_2=atof(argv[13]);  
   sa_2=atof(argv[14]);
+  hb_1=atof(argv[15]);
+  sb_1=atof(argv[16]);
+  hb_2=atof(argv[17]);
+  sb_2=atof(argv[18]);
   
-  rec_1=atof(argv[15]);
-  rec_2=atof(argv[16]);
+  rec_1=atof(argv[19]);
+  rec_2=atof(argv[20]);
   
-  h_B_1=k_B_1=atof(argv[17]);
-  s_B_1=atof(argv[18])*pow(10,atof(argv[19]));
-  h_B_2=k_B_2=atof(argv[20]);
-  s_B_2=atof(argv[21])*pow(10,atof(argv[22]));
-
-  m_h_1=atof(argv[23]);
-  m_h_2=atof(argv[24]);
-  m_d_1=atof(argv[25]);
-  m_d_2=atof(argv[26]);
+  h_B_1=k_B_1=atof(argv[21]);
+  s_B_1=atof(argv[22])*pow(10,atof(argv[23]));
+  h_B_2=k_B_2=atof(argv[24]);
+  s_B_2=atof(argv[25])*pow(10,atof(argv[26]));
+  
+  m_h_1=atof(argv[27]);
+  m_h_2=atof(argv[28]);
+  m_d_1=atof(argv[29]);
+  m_d_2=atof(argv[30]);
             
   // Compute the Meiosis_Mutation Matrix for population 1 
   double Me_Matrix_1[10][4];
@@ -179,9 +183,8 @@ int main(int, char* argv[]) {
       }
 
       //Stop conditions						
-      if (dip_IND_1[7]+dip_IND_1[8]+dip_IND_1[9]==N_1 || dip_IND_1[4]+dip_IND_1[6]+dip_IND_1[9]==N_1 ||
-          dip_IND_2[7]+dip_IND_2[8]+dip_IND_2[9]==N_2 || dip_IND_2[4]+dip_IND_2[6]+dip_IND_2[9]==N_2 ||
-          gen>=threshold) { isfin = 1; }
+      if (final_1[7]+final_1[8]+final_1[9] > 0.99 || final_1[4]+final_1[6]+final_1[9] > 0.99 || final_2[7]+final_2[8]+final_2[9] > 0.99 || final_2[4]+final_2[6]+final_2[9] > 0.99 ||
+        gen>=threshold) { isfin = 1; }
 
       //record genotypic frequencies every interval
       if((gen!=0 && span!=0 && gen%interval==0) || isfin == 1) {
@@ -205,7 +208,7 @@ int main(int, char* argv[]) {
     std::ofstream outfile;
     outfile.open("Output_TL_BM.csv", std::ios_base::app);
     outfile << threshold << "," << N_iter << "," << span << "," << interval << "," << N_1 << "," << N_2 << "," << self_r_1 << "," << self_r_2 << ",";
-    outfile << mu_Aa_1 << "," << mu_Aa_2 << ","<< mu_aA_1 << ","<< mu_aA_2 << ","<< mu_Bb_1 << ","<< mu_bB_2 << ","<< ha_1 << "," << sa_1 << "," << ha_2 << "," << sa_2 << ","<< rec_1 << "," << rec_2 << ","<< h_B_1 << "," ;
+    outfile << mu_Aa_1 << "," << mu_aA_1 << "," << mu_Bb_1 << ","<< mu_bB_1 <<","<< mu_Aa_2 << "," << mu_aA_2 << "," << mu_Bb_2 << ","<< mu_bB_2 << ","<< ha_1 << "," << sa_1 << "," << hb_1 << "," << sb_1 << "," << ha_2 << "," << sa_2 << "," << hb_2 << "," << sb_2 << ","<< rec_1 << "," << rec_2 << ","<< h_B_1 << "," ;
     outfile << k_B_1 << "," << s_B_1 << ","<< h_B_2 << "," << k_B_2 << "," << s_B_2 << ","<< m_h_1 << "," << m_h_2 << "," << m_d_1 << "," << m_d_2 << ","<< gen;
             
     if(gen != threshold+1) {
