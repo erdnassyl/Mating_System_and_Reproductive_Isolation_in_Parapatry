@@ -77,7 +77,7 @@ void FITNESS_LANDSCAPE_BM(const double sa, const double ha, const double sb, con
 	Fitness[9] = (1 + sa) * (1 + sb) * (1 + s_B);
 }
 // Compute gamete haplotypes given adult genotypes and the Meiose Mutation Matrix
-void GAMETE_PROD(const unsigned int dip_IND[10], const double Me_Mu_Matrix[][4], double* hap_FREQ)
+void GAMETE_PROD(const double dip_IND[10], const double Me_Mu_Matrix[][4], double* hap_FREQ)
 {
 	for (int i(0); i < 10; ++i) {
 		for (int j(0); j < 4; ++j) {
@@ -86,7 +86,7 @@ void GAMETE_PROD(const unsigned int dip_IND[10], const double Me_Mu_Matrix[][4],
 	}
 }
 // Define Reproduction without pollen migration function given selfing rate, genotypes of adult individuals, the Meiosis_Mutation matrix, and the Seeds's genotypic frequency 
-void REPRODUCTION(const double self_r_1, const unsigned int dip_IND_1[10], const double Me_Mu_Matrix_1[][4], double* dip_FREQ_1,const double m_h_1, const unsigned int dip_IND_2[10], const double Me_Mu_Matrix_2[][4])
+void REPRODUCTION(const double self_r_1, const double dip_IND_1[10], const double Me_Mu_Matrix_1[][4], double* dip_FREQ_1,const double m_h_1, const double dip_IND_2[10], const double Me_Mu_Matrix_2[][4])
 	
 {	// Seed genotypes produced through selfing
 	double self_dip[10] = {};
