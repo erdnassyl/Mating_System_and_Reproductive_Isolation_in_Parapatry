@@ -1,4 +1,4 @@
-// Mating System and Reproductive Isolation in Allopatry
+// Mating System and Reproductive Isolation in Parapatry
 // Two-Loci C++ Models
 // BDMi mutations � MAIN
 // Lucas Marie-Orleach
@@ -140,8 +140,8 @@ int main(int, char* argv[]) {
     double dip_FREQ_2[10] = {};
     double final_1[10] = {};
     double final_2[10] = {};
-    double dip_IND_1[10] = { (double)N_1 };
-    double dip_IND_2[10] = { (double)N_2 };
+    unsigned int dip_IND_1[10] = { N_1 };
+    unsigned int dip_IND_2[10] = { N_2 };
     double al_FREQ_1[4] = {};
     double al_FREQ_2[4] = {};
       
@@ -174,10 +174,10 @@ int main(int, char* argv[]) {
       SEED_MIGRATION(m_d_1, m_d_2, Fitness_1, Fitness_2, dip_FREQ_1, dip_FREQ_2, final_1, final_2);
 
       for(int i=0; i<10; ++i) {
-        dip_IND_1[i] = final_1[i] * N_1;
-        dip_IND_2[i] = final_2[i] * N_2;
+        dip_IND_1[i] = (unsigned int)(final_1[i] * N_1);
+        dip_IND_2[i] = (unsigned int)(final_2[i] * N_2);
       }
-										 									 
+
       //Stop conditions						
       if (dip_IND_1[7]+dip_IND_1[8]+dip_IND_1[9]==N_1 || dip_IND_1[4]+dip_IND_1[6]+dip_IND_1[9]==N_1 ||
           dip_IND_2[7]+dip_IND_2[8]+dip_IND_2[9]==N_2 || dip_IND_2[4]+dip_IND_2[6]+dip_IND_2[9]==N_2 ||
