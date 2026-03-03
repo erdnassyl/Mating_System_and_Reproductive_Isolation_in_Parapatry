@@ -95,10 +95,10 @@ int main(int, char* argv[]) {
   
   ha_1=atof(argv[11]);
   sa_1=atof(argv[12]); 
-  ha_2=atof(argv[13]);  
-  sa_2=atof(argv[14]);
-  hb_1=atof(argv[15]);
-  sb_1=atof(argv[16]);
+  hb_1=atof(argv[13]);
+  sb_1=atof(argv[14]);
+  ha_2=atof(argv[15]);
+  sa_2=atof(argv[16]);
   hb_2=atof(argv[17]);
   sb_2=atof(argv[18]);
   
@@ -144,8 +144,8 @@ int main(int, char* argv[]) {
     double dip_FREQ_2[10] = {};
     double final_1[10] = {};
     double final_2[10] = {};
-    unsigned int dip_IND_1[10] = { N_1 };
-    unsigned int dip_IND_2[10] = { N_2 };
+    double dip_IND_1[10] = { (double)N_1 };
+    double dip_IND_2[10] = { (double)N_2 };
     double al_FREQ_1[4] = {};
     double al_FREQ_2[4] = {};
       
@@ -158,7 +158,7 @@ int main(int, char* argv[]) {
     //life cycle
     while (isfin == 0) {
       // Remise à zéro des fréquences temporaires
-      for(int i=0; i<10; ++i){ dip_FREQ_1[i]=0; dip_FREQ_2[i]=0; }
+      for(int i=0; i<10; ++i){ dip_FREQ_1[i]=0; dip_FREQ_2[i]=0; final_1[i]=0; final_2[i]=0; }
 
       //record genotypic frequencies on the first gen
       if(span!=0 && gen==0) {
@@ -178,8 +178,8 @@ int main(int, char* argv[]) {
       SEED_MIGRATION(m_d_1, m_d_2, Fitness_1, Fitness_2, dip_FREQ_1, dip_FREQ_2, final_1, final_2);
 
       for(int i=0; i<10; ++i) {
-        dip_IND_1[i] = (unsigned int)(final_1[i] * N_1);
-        dip_IND_2[i] = (unsigned int)(final_2[i] * N_2);
+        dip_IND_1[i] = (final_1[i] * N_1);
+        dip_IND_2[i] = (final_2[i] * N_2);
       }
 
       //Stop conditions						
@@ -194,6 +194,11 @@ int main(int, char* argv[]) {
           gen_FREQ_1[(int)gen_FREQ_1.size()-1][i]=(double)dip_IND_1[i]/N_1;
           gen_FREQ_2[(int)gen_FREQ_2.size()-1][i]=(double)dip_IND_2[i]/N_2;
         }
+      }
+
+      // DEBUG - à ajouter après SEED_MIGRATION
+      if(gen % 1000 == 0) {
+        std::cout << "gen=" << gen << " final_1[0]=" << final_1[0] << " final_1[7]=" << final_1[7]<< " final_1[9]=" << final_1[9]<< " sum1=" << final_1[7]+final_1[8]+final_1[9]<< std::endl;
       }
       
       //add generation
@@ -211,14 +216,14 @@ int main(int, char* argv[]) {
     outfile << mu_Aa_1 << "," << mu_aA_1 << "," << mu_Bb_1 << ","<< mu_bB_1 <<","<< mu_Aa_2 << "," << mu_aA_2 << "," << mu_Bb_2 << ","<< mu_bB_2 << ","<< ha_1 << "," << sa_1 << "," << hb_1 << "," << sb_1 << "," << ha_2 << "," << sa_2 << "," << hb_2 << "," << sb_2 << ","<< rec_1 << "," << rec_2 << ","<< h_B_1 << "," ;
     outfile << k_B_1 << "," << s_B_1 << ","<< h_B_2 << "," << k_B_2 << "," << s_B_2 << ","<< m_h_1 << "," << m_h_2 << "," << m_d_1 << "," << m_d_2 << ","<< gen;
             
-    if(gen != threshold+1) {
-      outfile << "," << al_FREQ_1[0] << "," << al_FREQ_1[1] << "," << al_FREQ_1[2] << "," << al_FREQ_1[3];
-      outfile << "," << al_FREQ_2[0] << "," << al_FREQ_2[1] << "," << al_FREQ_2[2] << "," << al_FREQ_2[3];
+    
+    outfile << "," << al_FREQ_1[0] << "," << al_FREQ_1[1] << "," << al_FREQ_1[2] << "," << al_FREQ_1[3];
+    outfile << "," << al_FREQ_2[0] << "," << al_FREQ_2[1] << "," << al_FREQ_2[2] << "," << al_FREQ_2[3];
       for (int i=(int)gen_FREQ_1.size()-1; (i>=0) && (((int)gen_FREQ_1.size()-1)-i<=span); --i) {
         for (int j(0); j<=9; ++j) {
           outfile << "," << gen_FREQ_1[i][j] << "," << gen_FREQ_2[i][j];
         }
       }
-    } outfile << std::endl;						
+    outfile << std::endl;						
   }
 }
