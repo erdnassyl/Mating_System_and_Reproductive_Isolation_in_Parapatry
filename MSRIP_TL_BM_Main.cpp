@@ -171,9 +171,9 @@ int main(int, char* argv[]) {
       }
    
       // Reproduction Pop 1 (donne dip_FREQ_1)
-      REPRODUCTION(self_r_1, dip_IND_1, Me_Mu_Matrix_1, dip_FREQ_1, m_h_1, dip_IND_2, Me_Mu_Matrix_2);
+      REPRODUCTION_POP1(self_r_1, dip_IND_1, Me_Mu_Matrix_1, dip_FREQ_1, m_h_1, dip_IND_2, Me_Mu_Matrix_2);
       // Reproduction Pop 2 (donne dip_FREQ_2)
-      REPRODUCTION(self_r_2, dip_IND_2, Me_Mu_Matrix_2, dip_FREQ_2, m_h_2, dip_IND_1, Me_Mu_Matrix_1);
+      REPRODUCTION_POP2(self_r_2, dip_IND_2, Me_Mu_Matrix_2, dip_FREQ_2, m_h_2, dip_IND_1, Me_Mu_Matrix_1);
 
       SEED_MIGRATION(m_d_1, m_d_2, Fitness_1, Fitness_2, dip_FREQ_1, dip_FREQ_2, final_1, final_2);
 
@@ -194,11 +194,6 @@ int main(int, char* argv[]) {
           gen_FREQ_1[(int)gen_FREQ_1.size()-1][i]=(double)dip_IND_1[i]/N_1;
           gen_FREQ_2[(int)gen_FREQ_2.size()-1][i]=(double)dip_IND_2[i]/N_2;
         }
-      }
-
-      // DEBUG - à ajouter après SEED_MIGRATION
-      if(gen % 1000 == 0) {
-        std::cout << "gen=" << gen << " final_1[0]=" << final_1[0] << " final_1[7]=" << final_1[7]<< " final_1[9]=" << final_1[9]<< " sum1=" << final_1[7]+final_1[8]+final_1[9]<< std::endl;
       }
       
       //add generation
