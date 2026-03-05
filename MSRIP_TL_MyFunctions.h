@@ -159,7 +159,7 @@ void REPRODUCTION_POP1(const double self_r_1, const double dip_IND_1[10], const 
 	}
 }
 
-void REPRODUCTION_POP2(const double self_r_1, const double dip_IND_1[10], const double Me_Mu_Matrix_1[][4], double* dip_FREQ_1,const double m_h_1, const double dip_IND_2[10], const double Me_Mu_Matrix_2[][4])
+void REPRODUCTION_POP2(const double self_r_2, const double dip_IND_2[10], const double Me_Mu_Matrix_2[][4], double* dip_FREQ_2,const double m_h_2, const double dip_IND_1[10], const double Me_Mu_Matrix_1[][4])
 	
 {	// Seed genotypes produced through selfing
 	double self_dip[10] = {};
@@ -201,7 +201,7 @@ void REPRODUCTION_POP2(const double self_r_1, const double dip_IND_1[10], const 
 
 	double out_local_SUM_2(0.0);
 	for (int i(0); i < 10; ++i) { out_local_SUM_2 += out_local_dip_2[i]; }
-	double out_local_FREQ_1[10];
+	double out_local_FREQ_2[10];
 	for (int i(0); i < 10; ++i) { out_local_FREQ_2[i] = out_local_dip_2[i] / out_local_SUM_2; }
 
 	// Seed genotypes produced through outcrossing immigrants
@@ -222,7 +222,7 @@ void REPRODUCTION_POP2(const double self_r_1, const double dip_IND_1[10], const 
 
 	double out_im_SUM_2(0.0);
 	for (int i(0); i < 10; ++i) { out_im_SUM_2 += out_immigrant_dip_2[i]; }
-	double out_im_FREQ_1[10];
+	double out_im_FREQ_2[10];
 	for (int i(0); i < 10; ++i) { out_im_FREQ_2[i] = out_immigrant_dip_2[i] / out_im_SUM_2; }
 
 	// Total seed Genotypes
