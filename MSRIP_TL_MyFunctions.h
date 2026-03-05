@@ -86,7 +86,7 @@ void GAMETE_PROD(const double dip_IND[10], const double Me_Mu_Matrix[][4], doubl
 	}
 }
 // Define Reproduction without pollen migration function given selfing rate, genotypes of adult individuals, the Meiosis_Mutation matrix, and the Seeds's genotypic frequency 
-void REPRODUCTION(const double self_r_1, const double dip_IND_1[10], const double Me_Mu_Matrix_1[][4], double* dip_FREQ_1,const double m_h_1, const double dip_IND_2[10], const double Me_Mu_Matrix_2[][4])
+void REPRODUCTION_POP1(const double self_r_1, const double dip_IND_1[10], const double Me_Mu_Matrix_1[][4], double* dip_FREQ_1,const double m_h_1, const double dip_IND_2[10], const double Me_Mu_Matrix_2[][4])
 	
 {	// Seed genotypes produced through selfing
 	double self_dip[10] = {};
@@ -158,6 +158,80 @@ void REPRODUCTION(const double self_r_1, const double dip_IND_1[10], const doubl
 		((1 - self_r_1) * m_h_1 * out_im_FREQ_1[i]));
 	}
 }
+
+void REPRODUCTION_POP2(const double self_r_1, const double dip_IND_1[10], const double Me_Mu_Matrix_1[][4], double* dip_FREQ_1,const double m_h_1, const double dip_IND_2[10], const double Me_Mu_Matrix_2[][4])
+	
+{	// Seed genotypes produced through selfing
+	double self_dip[10] = {};
+	for (int i(0); i < 10; ++i) {
+		self_dip[0] += dip_IND_2[i] * Me_Mu_Matrix_2[i][0] * Me_Mu_Matrix_2[i][0];
+		self_dip[1] += dip_IND_2[i] * Me_Mu_Matrix_2[i][0] * Me_Mu_Matrix_2[i][1] * 2;
+		self_dip[2] += dip_IND_2[i] * Me_Mu_Matrix_2[i][0] * Me_Mu_Matrix_2[i][2] * 2;
+		self_dip[3] += dip_IND_2[i] * Me_Mu_Matrix_2[i][0] * Me_Mu_Matrix_2[i][3] * 2;
+		self_dip[4] += dip_IND_2[i] * Me_Mu_Matrix_2[i][1] * Me_Mu_Matrix_2[i][1];
+		self_dip[5] += dip_IND_2[i] * Me_Mu_Matrix_2[i][1] * Me_Mu_Matrix_2[i][2] * 2;
+		self_dip[6] += dip_IND_2[i] * Me_Mu_Matrix_2[i][1] * Me_Mu_Matrix_2[i][3] * 2;
+		self_dip[7] += dip_IND_2[i] * Me_Mu_Matrix_2[i][2] * Me_Mu_Matrix_2[i][2];
+		self_dip[8] += dip_IND_2[i] * Me_Mu_Matrix_2[i][2] * Me_Mu_Matrix_2[i][3] * 2;
+		self_dip[9] += dip_IND_2[i] * Me_Mu_Matrix_2[i][3] * Me_Mu_Matrix_2[i][3];
+	}
+
+	double self_dip_SUM(0.0);
+	for (int i(0); i < 10; ++i) { self_dip_SUM += self_dip[i]; }
+	double self_dip_FREQ[10];
+	for (int i(0); i < 10; ++i) { self_dip_FREQ[i] = self_dip[i] / self_dip_SUM; }
+
+	// Seed genotypes produced through outcrossing local
+	double local_ovule[4] = {};
+	double local_pollen[4] = {};
+	GAMETE_PROD(dip_IND_2, Me_Mu_Matrix_2, local_ovule);
+	GAMETE_PROD(dip_IND_2, Me_Mu_Matrix_1, local_pollen);
+
+	double out_local_dip_2[10] = {};
+	out_local_dip_2[0] = local_ovule[0] * local_pollen[0];
+	out_local_dip_2[1] = local_ovule[0] * local_pollen[1] + local_ovule[1] * local_pollen[0]; 
+	out_local_dip_2[2] = local_ovule[0] * local_pollen[2] + local_ovule[2] * local_pollen[0];
+	out_local_dip_2[3] = local_ovule[0] * local_pollen[3] + local_ovule[3] * local_pollen[0];
+	out_local_dip_2[4] = local_ovule[1] * local_pollen[1];
+	out_local_dip_2[5] = local_ovule[1] * local_pollen[2] + local_ovule[2] * local_pollen[1];
+	out_local_dip_2[6] = local_ovule[1] * local_pollen[3] + local_ovule[3] * local_pollen[1];
+	out_local_dip_2[7] = local_ovule[2] * local_pollen[2];
+	out_local_dip_2[8] = local_ovule[2] * local_pollen[3] + local_ovule[3] * local_pollen[2];
+	out_local_dip_2[9] = local_ovule[3] * local_pollen[3];
+
+	double out_local_SUM_2(0.0);
+	for (int i(0); i < 10; ++i) { out_local_SUM_2 += out_local_dip_2[i]; }
+	double out_local_FREQ_1[10];
+	for (int i(0); i < 10; ++i) { out_local_FREQ_2[i] = out_local_dip_2[i] / out_local_SUM_2; }
+
+	// Seed genotypes produced through outcrossing immigrants
+	double immigrant_pollen[4] = {};
+	GAMETE_PROD(dip_IND_1, Me_Mu_Matrix_1,immigrant_pollen);
+	
+	double out_immigrant_dip_2[10] = {};
+	out_immigrant_dip_2[0] = local_ovule[0] * immigrant_pollen[0];
+	out_immigrant_dip_2[1] = local_ovule[0] * immigrant_pollen[1] + local_ovule[1] * immigrant_pollen[0] ;
+	out_immigrant_dip_2[2] = local_ovule[0] * immigrant_pollen[2] + local_ovule[2] * immigrant_pollen[0];
+	out_immigrant_dip_2[3] = local_ovule[0] * immigrant_pollen[3] + local_ovule[3] * immigrant_pollen[0];
+	out_immigrant_dip_2[4] = local_ovule[1] * immigrant_pollen[1];
+	out_immigrant_dip_2[5] = local_ovule[1] * immigrant_pollen[2] + local_ovule[2] * immigrant_pollen[1];
+	out_immigrant_dip_2[6] = local_ovule[1] * immigrant_pollen[3] + local_ovule[3] * immigrant_pollen[1];
+	out_immigrant_dip_2[7] = local_ovule[2] * immigrant_pollen[2];
+	out_immigrant_dip_2[8] = local_ovule[2] * immigrant_pollen[3] + local_ovule[3] * immigrant_pollen[2];
+	out_immigrant_dip_2[9] = local_ovule[3] * immigrant_pollen[3];
+
+	double out_im_SUM_2(0.0);
+	for (int i(0); i < 10; ++i) { out_im_SUM_2 += out_immigrant_dip_2[i]; }
+	double out_im_FREQ_1[10];
+	for (int i(0); i < 10; ++i) { out_im_FREQ_2[i] = out_immigrant_dip_2[i] / out_im_SUM_2; }
+
+	// Total seed Genotypes
+	for (int i(0); i < 10; ++i) {
+		dip_FREQ_2[i] =((self_r_2 * self_dip_FREQ[i]) + ((1 - self_r_2) * (1 - m_h_2) * out_local_FREQ_2[i]) + 
+		((1 - self_r_2) * m_h_2 * out_im_FREQ_2[i]));
+	}
+}
+
 // Compute genotypic frequencies after selection, given genotypic frequencies before selection, and the fitness landscape
 void SELECTION(const double dip_FREQ_pre_sel[10], const double Fitness[10], double* dip_FREQ_post_sel)
 {
