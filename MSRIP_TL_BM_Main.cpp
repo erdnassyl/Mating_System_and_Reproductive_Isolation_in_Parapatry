@@ -1,7 +1,8 @@
 // Mating System and Reproductive Isolation in Parapatry
-// Two-Loci C++ Models
-// BDMi mutations � MAIN
-// Lucas Marie-Orleach
+// Two-Loci C++ Models with BDMi mutations
+// Lyssandre Marchand M2 intership, codes inspired from Lucas Marie-Orleach et al. 2022. 
+
+// Deterministic model with infinite population 
 
 #include <iostream>
 #include <string.h>
@@ -22,8 +23,8 @@ using namespace std;
 // Define parameters
 unsigned long long int threshold(0);
 unsigned long long int N_iter(0);
-unsigned int N_1(0);
-unsigned int N_2(0);
+// unsigned int N_1(0); -> note : infinite population, donc pas besoin
+// unsigned int N_2(0);
 
 double mu_Aa_1(.0);
 double mu_aA_1(.0);
@@ -63,21 +64,11 @@ double s_B_2(0);
 double h_B_2(0);
 double k_B_2(0);
 
-
 int span (0);
 int interval (0);
 
 int main(int, char* argv[]) {
 
-  // const gsl_rng_type* T;
-  // gsl_rng* r;
-
-  // create a generator chosen by the environment variable GSL_RNG_TYPE
-  // gsl_rng_env_setup();
-  // gsl_rng_default_seed = (unsigned long)time(0);
-  // T = gsl_rng_default;
-  // r = gsl_rng_alloc(T);
- 
   // use argument passed in command line
   threshold=atoll(argv[1]);
   N_iter=atoll(argv[2]);
