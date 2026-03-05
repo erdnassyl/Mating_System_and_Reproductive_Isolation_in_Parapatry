@@ -30,9 +30,9 @@ touch Output_TL_BM.csv
 # Boucle de simulations 
 echo "Lancement des simulations..."
 
-for N_1 in 100
+for N_1 in 100 1000 10000 100000 1000000
 do
- for N_2 in 100
+ for N_2 in 100 1000 10000 100000 1000000
  do
   for self_r_1 in 0 
   do
