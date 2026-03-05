@@ -64,13 +64,13 @@ do
                do
                 for h_B_1 in 0.5
                 do
-                 for s_B_1 in 0.1
+                 for s_B_1 in 2.5 0
                  do
                   for s_B_exp_1 in -4
                   do
                    for h_B_2 in 0.5
                    do
-                    for s_B_2 in 0.1
+                    for s_B_2 in -2.5 0
                     do
                      for s_B_exp_2 in -4
                      do
