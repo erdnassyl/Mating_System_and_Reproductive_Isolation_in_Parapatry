@@ -1,6 +1,8 @@
 // Mating System and Reproductive Isolation in Parapatry
-// Two-Loci C++ Models � FUNCTIONS
-// Lucas Marie-Orleach
+// Two-Loci C++ Models with BDMi mutations
+// Lyssandre Marchand M2 intership, codes inspired from Lucas Marie-Orleach et al. 2022. 
+
+// Functions 
 
 #pragma once
 #include <iostream>
