@@ -29,6 +29,7 @@ void Me_MATRIX_COMP(const double rec, double Me_Matrix[][4])
 		} 
 	}
 }
+
 // Compute Mutation Matrix given mutation rates
 void Mu_MATRIX_COMP(const double Mu_Aa, const double mu_aA, const double mu_Bb, const double mu_bB, double Mu_Matrix[][4])
 {
@@ -45,6 +46,7 @@ void Mu_MATRIX_COMP(const double Mu_Aa, const double mu_aA, const double mu_Bb, 
 		}
 	}
 }
+
 // Compute Meiose Matrix Matrix given Meiose Matrix and Mutation Matrix
 void Me_Mu_MATRIX_COMP(const double Me_Matrix[][4], const double Mu_Matrix[][4], double Me_Mu_Matrix[][4])
 {
@@ -64,6 +66,7 @@ void Me_Mu_MATRIX_COMP(const double Me_Matrix[][4], const double Mu_Matrix[][4],
 		}
 	}
 }
+
 // Compute Fitness Landscape given coefficients of dominance and strenght of selection
 void FITNESS_LANDSCAPE_BM(const double sa, const double ha, const double sb, const double hb, const double s_B, const double h_B, const double k_B, double* Fitness)
 {
@@ -78,15 +81,21 @@ void FITNESS_LANDSCAPE_BM(const double sa, const double ha, const double sb, con
 	Fitness[8] = (1 + sa) * (1 + (hb * sb)) * (1 + (h_B * s_B));
 	Fitness[9] = (1 + sa) * (1 + sb) * (1 + s_B);
 }
+
 // Compute gamete haplotypes given adult genotypes and the Meiose Mutation Matrix
 void GAMETE_PROD(const double dip_IND[10], const double Me_Mu_Matrix[][4], double* hap_FREQ)
 {
+	for (int k = 0; k < 4; ++z) { // Remise à 0 car on store avec += donc risque d'accumulation
+		hap_FREQ[z] = 0
+			}
+	
 	for (int i(0); i < 10; ++i) {
 		for (int j(0); j < 4; ++j) {
 			hap_FREQ[j] += dip_IND[i] * Me_Mu_Matrix[i][j];
 		}
 	}
 }
+
 // Define Reproduction without pollen migration function given selfing rate, genotypes of adult individuals, the Meiosis_Mutation matrix, and the Seeds's genotypic frequency 
 void REPRODUCTION_POP1(const double self_r_1, const double dip_IND_1[10], const double Me_Mu_Matrix_1[][4], double* dip_FREQ_1,const double m_h_1, const double dip_IND_2[10], const double Me_Mu_Matrix_2[][4])
 	
@@ -253,6 +262,7 @@ void SELECTION(const double dip_FREQ_pre_sel[10], const double Fitness[10], doub
 	for (int i(0); i < 10; ++i) { SUM += dip_post_sel[i]; }
 	for (int i(0); i < 10; ++i) { dip_FREQ_post_sel[i] = dip_post_sel[i] / SUM; }
 }
+
 // Diploid migration 
 void SEED_MIGRATION(const double m_d_1,const double m_d_2, const double Fitness_1[10], const double Fitness_2[10], const double pre_sel_1[10],const double pre_sel_2[10], double* final_seeds_1, double* final_seeds_2 )
 {
@@ -266,6 +276,7 @@ void SEED_MIGRATION(const double m_d_1,const double m_d_2, const double Fitness_
 		final_seeds_2[j] = (1 - m_d_2) * selected_immigrant[j] + m_d_2 * selected_local[j];
 	}
 }
+
 // Compute allele frequencies
 void ALLELE_FREQ_COMP(const double* dip_FREQ, double* allele_FREQ) 
 {
