@@ -82,9 +82,6 @@ int main(int, char* argv[]) {
   N_iter=atoll(argv[2]);
   span=atoi(argv[3]);
   interval=atoi(argv[4]);  
-  
-  // N_1=atoi(argv[5]);
-  // N_2=atoi(argv[6]);
 
   self_r_1=atof(argv[5]);
   self_r_2=atof(argv[6]);
@@ -172,8 +169,13 @@ int main(int, char* argv[]) {
       ALLELE_FREQ_COMP(dip_FREQ_1, pre_al_FREQ_1);
       ALLELE_FREQ_COMP(dip_FREQ_2, pre_al_FREQ_2);
       
-      // Remise à zéro des fréquences temporaires (à revoir) 
-      // for(int i=0; i<10; ++i){ dip_FREQ_1[i]=0; dip_FREQ_2[i]=0; final_1[i]=0; final_2[i]=0; }
+      // Remise à zéro des fréquences temporaires
+      for(int i=0; i<10; ++i){ 
+        after_repro_1[i]=0; 
+        after_repro_2[i]=0; 
+        final_1[i]=0; 
+        final_2[i]=0; 
+      }
 
       // Record genotypic frequencies on the first gen
       if(span!=0 && gen==0) {
@@ -222,8 +224,8 @@ int main(int, char* argv[]) {
         gen_FREQ_1.push_back(vector<double>(10));
         gen_FREQ_2.push_back(vector<double>(10));
         for (int i(0); i<=9; ++i) {
-          gen_FREQ_1[(int)gen_FREQ_1.size()-1][i]=dip_FREQ_1;
-          gen_FREQ_2[(int)gen_FREQ_2.size()-1][i]=dip_FREQ_2;
+          gen_FREQ_1[(int)gen_FREQ_1.size()-1][i]=dip_FREQ_1[i];
+          gen_FREQ_2[(int)gen_FREQ_2.size()-1][i]=dip_FREQ_2[i];
         }
       }
       
