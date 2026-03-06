@@ -115,7 +115,7 @@ int main(int, char* argv[]) {
   m_d_2=atof(argv[29]);
 
   // Fixation threshold 
-  double epsilon=1e-3
+  double epsilon=1e-3;
 
   //////// MEIOSIS_MUTATION MATRICES AND FITNESS
   
@@ -146,7 +146,9 @@ int main(int, char* argv[]) {
     // Condition initialisation
     double dip_FREQ_1[10] ={1.0,0,0,0,0,0,0,0,0,0}; // AABB dans pop 1
     double dip_FREQ_2[10] = {0,0,0,0,0,0,0,0,0,1.0}; // aabb dans pop 2 
-    
+
+    double after_repro_1[10] = {};
+    double after_repro_2[10] = {};
     double final_1[10] = {};
     double final_2[10] = {};
     
@@ -184,11 +186,11 @@ int main(int, char* argv[]) {
       }
    
       // Reproduction 
-      REPRODUCTION_POP1(self_r_1, dip_Freq_1, Me_Mu_Matrix_1, after_repro_1, m_h_1, dip_FREQ_2, Me_Mu_Matrix_2);
-      REPRODUCTION_POP2(self_r_2, dip_Freq_2, Me_Mu_Matrix_2, after_repro_2, m_h_2, dip_FREQ_1, Me_Mu_Matrix_1);
+      REPRODUCTION_POP1(self_r_1, dip_FREQ_1, Me_Mu_Matrix_1, after_repro_1, m_h_1, dip_FREQ_2, Me_Mu_Matrix_2);
+      REPRODUCTION_POP2(self_r_2, dip_FREQ_2, Me_Mu_Matrix_2, after_repro_2, m_h_2, dip_FREQ_1, Me_Mu_Matrix_1);
 
       // Migration
-      SEED_MIGRATION(m_d_1, m_d_2, Fitness_1, Fitness_2, dip_FREQ_1, dip_FREQ_2, final_1, final_2);
+      SEED_MIGRATION(m_d_1, m_d_2, Fitness_1, Fitness_2, after_repro_1, after_repro_2, final_1, final_2);
 
       // Storing the new allelic frequences
       for(int i=0; i<10; ++i) {
@@ -201,13 +203,14 @@ int main(int, char* argv[]) {
       ALLELE_FREQ_COMP(dip_FREQ_2, al_FREQ_2);
 
       double delta = 0.0;
-      for (int i = 0, i < 3; ++i){
+      for (int i = 0; i < 3; ++i){
         double d1 = std::abs(al_FREQ_1[i] - pre_al_FREQ_1[i]); // deltas computations for pop 1
         double d2 = std::abs(al_FREQ_2[i] - pre_al_FREQ_2[i]); // deltas computations for pop 2
 
         // We take the highest value
         if (d1 > delta) delta = d1;
         if (d2 > delta) delta = d2;
+      }
 
       //Stop conditions
         if (delta < epsilon || gen >= threshold){
@@ -219,8 +222,8 @@ int main(int, char* argv[]) {
         gen_FREQ_1.push_back(vector<double>(10));
         gen_FREQ_2.push_back(vector<double>(10));
         for (int i(0); i<=9; ++i) {
-          gen_FREQ_1[(int)gen_FREQ_1.size()-1][i]=(double)dip_IND_1[i]/N_1;
-          gen_FREQ_2[(int)gen_FREQ_2.size()-1][i]=(double)dip_IND_2[i]/N_2;
+          gen_FREQ_1[(int)gen_FREQ_1.size()-1][i]=dip_FREQ_1;
+          gen_FREQ_2[(int)gen_FREQ_2.size()-1][i]=dip_FREQ_2;
         }
       }
       
@@ -235,7 +238,7 @@ int main(int, char* argv[]) {
     //Fill in output file
     std::ofstream outfile;
     outfile.open("Output_TL_BM.csv", std::ios_base::app);
-    outfile << threshold << "," << N_iter << "," << span << "," << interval << "," << N_1 << "," << N_2 << "," << self_r_1 << "," << self_r_2 << ",";
+    outfile << threshold << "," << N_iter << "," << span << "," << interval << "," << self_r_1 << "," << self_r_2 << ",";
     outfile << mu_Aa_1 << "," << mu_aA_1 << "," << mu_Bb_1 << ","<< mu_bB_1 <<","<< mu_Aa_2 << "," << mu_aA_2 << "," << mu_Bb_2 << ","<< mu_bB_2 << ","<< ha_1 << "," << sa_1 << "," << hb_1 << "," << sb_1 << "," << ha_2 << "," << sa_2 << "," << hb_2 << "," << sb_2 << ","<< rec_1 << "," << rec_2 << ","<< h_B_1 << "," ;
     outfile << k_B_1 << "," << s_B_1 << ","<< h_B_2 << "," << k_B_2 << "," << s_B_2 << ","<< m_h_1 << "," << m_h_2 << "," << m_d_1 << "," << m_d_2 << ","<< gen;
             
