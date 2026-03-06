@@ -25,9 +25,8 @@ unsigned long long int threshold(0);
 unsigned long long int N_iter(0);
 // unsigned int N_1(0); -> note : infinite population, donc pas besoin
 // unsigned int N_2(0);
-double dip_Freq_ini_pop1[10]={1.0,0,0,0,0,0,0,0,0,0}; // tout en AABB au début 
-double dip_Freq_ini_pop2[10]={1.0,0,0,0,0,0,0,0,0,0}; // idem
 
+// Mutation parameters
 double mu_Aa_1(.0);
 double mu_aA_1(.0);
 double mu_Bb_1(.0);
@@ -37,14 +36,17 @@ double mu_aA_2(.0);
 double mu_Bb_2(.0);
 double mu_bB_2(.0);
 
+// Selfing rates parameters
 double self_r_1(.0);
 double self_r_2(.0);
 
+// Haploid and diploid migration rates 
 double m_h_1(.0);
 double m_h_2(.0);
 double m_d_1(.0);
 double m_d_2(.0);
 
+// Fitness initialization, selection and dominance rates 
 double Fitness_1[10] = { 1,1,1,1,1,1,1,1,1,1 };
 double Fitness_2[10] = { 1,1,1,1,1,1,1,1,1,1 };
 double ha_1(.0);
@@ -56,9 +58,11 @@ double sa_2(.0);
 double hb_2(.0); 
 double sb_2(.0);
 
+// Recombination rates
 double rec_1(.0);
 double rec_2(.0);
 
+// Selection and dominance for BDMi mutations
 double s_B_1(0);
 double h_B_1(0);
 double k_B_1(0);
@@ -71,43 +75,50 @@ int interval (0);
 
 int main(int, char* argv[]) {
 
+  //////// PARAMETERS
+
   // use argument passed in command line
   threshold=atoll(argv[1]);
   N_iter=atoll(argv[2]);
   span=atoi(argv[3]);
   interval=atoi(argv[4]);  
   
-  N_1=atoi(argv[5]);
-  N_2=atoi(argv[6]);
+  // N_1=atoi(argv[5]);
+  // N_2=atoi(argv[6]);
 
-  self_r_1=atof(argv[7]);
-  self_r_2=atof(argv[8]);
+  self_r_1=atof(argv[5]);
+  self_r_2=atof(argv[6]);
   
-  mu_Aa_1=mu_Bb_1=atof(argv[9]);
-  mu_Aa_2=mu_Bb_2=atof(argv[10]);
+  mu_Aa_1=mu_Bb_1=atof(argv[7]);
+  mu_Aa_2=mu_Bb_2=atof(argv[8]);
   
-  ha_1=atof(argv[11]);
-  sa_1=atof(argv[12]); 
-  hb_1=atof(argv[13]);
-  sb_1=atof(argv[14]);
-  ha_2=atof(argv[15]);
-  sa_2=atof(argv[16]);
-  hb_2=atof(argv[17]);
-  sb_2=atof(argv[18]);
+  ha_1=atof(argv[9]);
+  sa_1=atof(argv[10]); 
+  hb_1=atof(argv[11]);
+  sb_1=atof(argv[12]);
+  ha_2=atof(argv[13]);
+  sa_2=atof(argv[14]);
+  hb_2=atof(argv[15]);
+  sb_2=atof(argv[16]);
   
-  rec_1=atof(argv[19]);
-  rec_2=atof(argv[20]);
+  rec_1=atof(argv[17]);
+  rec_2=atof(argv[18]);
   
-  h_B_1=k_B_1=atof(argv[21]);
-  s_B_1=atof(argv[22])*pow(10,atof(argv[23]));
-  h_B_2=k_B_2=atof(argv[24]);
-  s_B_2=atof(argv[25])*pow(10,atof(argv[26]));
+  h_B_1=k_B_1=atof(argv[19]);
+  s_B_1=atof(argv[20])*pow(10,atof(argv[21]));
+  h_B_2=k_B_2=atof(argv[23]);
+  s_B_2=atof(argv[24])*pow(10,atof(argv[25]));
   
-  m_h_1=atof(argv[27]);
-  m_h_2=atof(argv[28]);
-  m_d_1=atof(argv[29]);
-  m_d_2=atof(argv[30]);
-            
+  m_h_1=atof(argv[26]);
+  m_h_2=atof(argv[27]);
+  m_d_1=atof(argv[28]);
+  m_d_2=atof(argv[29]);
+
+  // Fixation threshold 
+  double epsilon=1e-3
+
+  //////// MEIOSIS_MUTATION MATRICES AND FITNESS
+  
   // Compute the Meiosis_Mutation Matrix for population 1 
   double Me_Matrix_1[10][4];
   double Mu_Matrix_1[4][4];
@@ -126,58 +137,82 @@ int main(int, char* argv[]) {
   Mu_MATRIX_COMP(mu_Aa_2, mu_aA_2, mu_Bb_2, mu_bB_2, Mu_Matrix_2);
   Me_Mu_MATRIX_COMP(Me_Matrix_2, Mu_Matrix_2, Me_Mu_Matrix_2);
   		
-  //Compute Fitness landsacpe
+  // Compute Fitness landsacpe
   FITNESS_LANDSCAPE_BM(sa_1, ha_1, sb_1, hb_1, s_B_1, h_B_1, k_B_1, Fitness_1);
   FITNESS_LANDSCAPE_BM(sa_2, ha_2, sb_2, hb_2, s_B_2, h_B_2, k_B_2, Fitness_2);
   	
   for (int k(0); k < (int)N_iter; ++k) {
      
-    //condition initialisation
-    double dip_FREQ_1[10] = {};
-    double dip_FREQ_2[10] = {};
+    // Condition initialisation
+    double dip_FREQ_1[10] ={1.0,0,0,0,0,0,0,0,0,0}; // AABB dans pop 1
+    double dip_FREQ_2[10] = {0,0,0,0,0,0,0,0,0,1.0}; // aabb dans pop 2 
+    
     double final_1[10] = {};
     double final_2[10] = {};
-    double dip_IND_1[10] = { (double)N_1 };
-    double dip_IND_2[10] = { (double)N_2 };
-    double al_FREQ_1[4] = {};
+    
+    double pre_al_FREQ_1[4] = {}; // Stores the previous allelic frequences at the beginning of the cycle
+    double pre_al_FREQ_2[4] = {};
+    double al_FREQ_1[4] = {}; // Stores the new allelic frequences at the end of the cycle
     double al_FREQ_2[4] = {};
-      
+    
     unsigned long long int gen(0);
     bool isfin(0);
     
     vector<vector<double>> gen_FREQ_1(0,vector<double>(10));
     vector<vector<double>> gen_FREQ_2(0,vector<double>(10));
    
-    //life cycle
+    //////// LIFE CYCLE 
+    
     while (isfin == 0) {
-      // Remise à zéro des fréquences temporaires
-      for(int i=0; i<10; ++i){ dip_FREQ_1[i]=0; dip_FREQ_2[i]=0; final_1[i]=0; final_2[i]=0; }
 
-      //record genotypic frequencies on the first gen
+      // Compute the allelic frequencies before the life cycle 
+      // Will be used to compute the stop conditions
+      ALLELE_FREQ_COMP(dip_FREQ_1, pre_al_FREQ_1);
+      ALLELE_FREQ_COMP(dip_FREQ_2, pre_al_FREQ_2);
+      
+      // Remise à zéro des fréquences temporaires (à revoir) 
+      // for(int i=0; i<10; ++i){ dip_FREQ_1[i]=0; dip_FREQ_2[i]=0; final_1[i]=0; final_2[i]=0; }
+
+      // Record genotypic frequencies on the first gen
       if(span!=0 && gen==0) {
         gen_FREQ_1.push_back(vector<double>(10));
         gen_FREQ_2.push_back(vector<double>(10));
         for (int i(0); i<=9; ++i) {
-          gen_FREQ_1[ceil(gen/interval)][i]=(double)dip_IND_1[i]/N_1;
-          gen_FREQ_2[ceil(gen/interval)][i]=(double)dip_IND_2[i]/N_2;
+          gen_FREQ_1[ceil(gen/interval)][i]=dip_FREQ_1[i];
+          gen_FREQ_2[ceil(gen/interval)][i]=dip_FREQ_2[i];
         }
       }
    
-      // Reproduction Pop 1 (donne dip_FREQ_1)
-      REPRODUCTION_POP1(self_r_1, dip_Freq_ini_pop1, Me_Mu_Matrix_1, dip_FREQ_1, m_h_1, dip_IND_2, Me_Mu_Matrix_2);
-      // Reproduction Pop 2 (donne dip_FREQ_2)
-      REPRODUCTION_POP2(self_r_2, dip_Freq_ini_pop2, Me_Mu_Matrix_2, dip_FREQ_2, m_h_2, dip_IND_1, Me_Mu_Matrix_1);
+      // Reproduction 
+      REPRODUCTION_POP1(self_r_1, dip_Freq_1, Me_Mu_Matrix_1, after_repro_1, m_h_1, dip_FREQ_2, Me_Mu_Matrix_2);
+      REPRODUCTION_POP2(self_r_2, dip_Freq_2, Me_Mu_Matrix_2, after_repro_2, m_h_2, dip_FREQ_1, Me_Mu_Matrix_1);
 
+      // Migration
       SEED_MIGRATION(m_d_1, m_d_2, Fitness_1, Fitness_2, dip_FREQ_1, dip_FREQ_2, final_1, final_2);
 
+      // Storing the new allelic frequences
       for(int i=0; i<10; ++i) {
-        dip_Freq_ini_pop1[i] = final_1[i];
-        dip_Freq_ini_pop2[i] = final_2[i];
+        dip_FREQ_1[i] = final_1[i];
+        dip_FREQ_2[i] = final_2[i];
       }
 
-      //Stop conditions						
-      if (final_1[7]+final_1[8]+final_1[9] > 0.99 || final_1[4]+final_1[6]+final_1[9] > 0.99 || final_2[7]+final_2[8]+final_2[9] > 0.99 || final_2[4]+final_2[6]+final_2[9] > 0.99 ||
-        gen>=threshold) { isfin = 1; }
+      // Compute the new allelic frequences and the delta 
+      ALLELE_FREQ_COMP(dip_FREQ_1, al_FREQ_1);
+      ALLELE_FREQ_COMP(dip_FREQ_2, al_FREQ_2);
+
+      double delta = 0.0;
+      for (int i = 0, i < 3; ++i){
+        double d1 = std::abs(al_FREQ_1[i] - pre_al_FREQ_1[i]); // deltas computations for pop 1
+        double d2 = std::abs(al_FREQ_2[i] - pre_al_FREQ_2[i]); // deltas computations for pop 2
+
+        // We take the highest value
+        if (d1 > delta) delta = d1;
+        if (d2 > delta) delta = d2;
+
+      //Stop conditions
+        if (delta < epsilon || gen >= threshold){
+          isfin = 1;
+        }
 
       //record genotypic frequencies every interval
       if((gen!=0 && span!=0 && gen%interval==0) || isfin == 1) {
