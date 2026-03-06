@@ -25,6 +25,8 @@ unsigned long long int threshold(0);
 unsigned long long int N_iter(0);
 // unsigned int N_1(0); -> note : infinite population, donc pas besoin
 // unsigned int N_2(0);
+double dip_Freq_ini_pop1[10]={1.0,0,0,0,0,0,0,0,0,0}; // tout en AABB au début 
+double dip_Freq_ini_pop2[10]={1.0,0,0,0,0,0,0,0,0,0}; // idem
 
 double mu_Aa_1(.0);
 double mu_aA_1(.0);
@@ -162,15 +164,15 @@ int main(int, char* argv[]) {
       }
    
       // Reproduction Pop 1 (donne dip_FREQ_1)
-      REPRODUCTION_POP1(self_r_1, dip_IND_1, Me_Mu_Matrix_1, dip_FREQ_1, m_h_1, dip_IND_2, Me_Mu_Matrix_2);
+      REPRODUCTION_POP1(self_r_1, dip_Freq_ini_pop1, Me_Mu_Matrix_1, dip_FREQ_1, m_h_1, dip_IND_2, Me_Mu_Matrix_2);
       // Reproduction Pop 2 (donne dip_FREQ_2)
-      REPRODUCTION_POP2(self_r_2, dip_IND_2, Me_Mu_Matrix_2, dip_FREQ_2, m_h_2, dip_IND_1, Me_Mu_Matrix_1);
+      REPRODUCTION_POP2(self_r_2, dip_Freq_ini_pop2, Me_Mu_Matrix_2, dip_FREQ_2, m_h_2, dip_IND_1, Me_Mu_Matrix_1);
 
       SEED_MIGRATION(m_d_1, m_d_2, Fitness_1, Fitness_2, dip_FREQ_1, dip_FREQ_2, final_1, final_2);
 
       for(int i=0; i<10; ++i) {
-        dip_IND_1[i] = (final_1[i] * N_1);
-        dip_IND_2[i] = (final_2[i] * N_2);
+        dip_Freq_ini_pop1[i] = final_1[i];
+        dip_Freq_ini_pop2[i] = final_2[i];
       }
 
       //Stop conditions						
