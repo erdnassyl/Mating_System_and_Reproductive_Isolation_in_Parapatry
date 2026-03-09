@@ -59,14 +59,6 @@ double gamma_2(.0);
 double rec_1(.0);
 double rec_2(.0);
 
-// Selection and dominance for BDMi mutations
-double s_B_1(0);
-double h_B_1(0);
-double k_B_1(0);
-double s_B_2(0);
-double h_B_2(0);
-double k_B_2(0);
-
 int span (0);
 int interval (0);
 
@@ -96,15 +88,10 @@ int main(int, char* argv[]) {
   rec_1=atof(argv[15]);
   rec_2=atof(argv[16]);
   
-  h_B_1=k_B_1=atof(argv[17]);
-  s_B_1=atof(argv[18])*pow(10,atof(argv[19]));
-  h_B_2=k_B_2=atof(argv[20]);
-  s_B_2=atof(argv[21])*pow(10,atof(argv[22]));
-  
-  m_h_1=atof(argv[23]);
-  m_h_2=atof(argv[24]);
-  m_d_1=atof(argv[25]);
-  m_d_2=atof(argv[26]);
+  m_h_1=atof(argv[17]);
+  m_h_2=atof(argv[18]);
+  m_d_1=atof(argv[19]);
+  m_d_2=atof(argv[20]);
 
   // Fixation threshold 
   double epsilon=1e-3;
