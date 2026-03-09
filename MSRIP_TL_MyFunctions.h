@@ -86,16 +86,16 @@ void FITNESS_LANDSCAPE_BM(const double sa, const double ha, const double sb, con
 // With alpha the fitness of aAbb, beta the fitness of aaBb and gamma the epistasy rate. 
 void FITNESS_LANDSCAPE(const double alpha, const double beta, const double gamma, double* Fitness)
 {
-	Fitness[0] = alpha + beta - (4 * gamma);
-	Fitness[1] = alpha + beta - (2 * gamma);
-	Fitness[2] = alpha + beta - (2 * gamma);
-	Fitness[3] = alpha + beta - gamma;
-	Fitness[4] = 2 * alpha;
-	Fitness[5] = alpha + beta - gamma;
-	Fitness[6] = alpha;
-	Fitness[7] = 2 * beta;
-	Fitness[8] = beta;
-	Fitness[9] = 0;
+	Fitness[0] = 1 + (alpha + beta - (4 * gamma));
+	Fitness[1] = 1 + (alpha + beta - (2 * gamma));
+	Fitness[2] = 1 + (alpha + beta - (2 * gamma));
+	Fitness[3] = 1 + (alpha + beta - gamma);
+	Fitness[4] = 1 + (2 * alpha);
+	Fitness[5] = 1 + (alpha + beta - gamma);
+	Fitness[6] = 1 + alpha;
+	Fitness[7] = 1 + (2 * beta);
+	Fitness[8] = 1 + beta;
+	Fitness[9] = 1 + 0;
 }
 
 // Compute gamete haplotypes given adult genotypes and the Meiose Mutation Matrix
