@@ -20,7 +20,7 @@ fi
 # Paramètres fixes
 threshold=10000
 iteration=1
-span=0
+span=100
 interval=10
 
 touch Output_TL_BM.csv
@@ -44,14 +44,14 @@ for self_r_1 in 0; do
                           for m_h_2 in 0; do
                             for m_d_1 in 0; do
                               for m_d_2 in 0; do
-                                echo "Running for alpha1=$alpha_1, beta1=$beta_1..."
-                                ./msri.exe ${threshold} ${iteration} ${span} ${interval} \
-                                           ${self_r_1} ${self_r_2} \
-                                           ${mu_1} ${mu_2} \
-                                           ${alpha_1} ${beta_1} ${gamma_1} \
-                                           ${alpha_2} ${beta_2} ${gamma_2} \
-                                           ${rec_1} ${rec_2} \
-                                           ${m_h_1} ${m_h_2} ${m_d_1} ${m_d_2}
+                              echo "Running..."
+                              ./msri.exe ${threshold} ${iteration} ${span} ${interval} \
+                              ${self_r_1} ${self_r_2} \
+                              ${mu_1} ${mu_2} \
+                              ${alpha_1} ${beta_1} ${gamma_1} \
+                              ${alpha_2} ${beta_2} ${gamma_2} \
+                              ${rec_1} ${rec_2} \
+                              ${m_h_1} ${m_h_2} ${m_d_1} ${m_d_2}
                               done
                             done
                           done
