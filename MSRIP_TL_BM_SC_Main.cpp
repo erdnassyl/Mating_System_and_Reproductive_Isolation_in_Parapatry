@@ -224,7 +224,7 @@ int main(int, char* argv[]) {
     outfile.open("Output_TL_BM_SC.csv", std::ios_base::app);
     outfile << threshold << "," << N_iter << "," << span << "," << interval << "," << self_r_1 << "," << self_r_2 << ",";
     outfile << mu_Aa_1 << "," << mu_aA_1 << "," << mu_Bb_1 << ","<< mu_bB_1 <<","<< mu_Aa_2 << "," << mu_aA_2 << "," << mu_Bb_2 << ","<< mu_bB_2 << ","<< alpha_1 << "," << beta_1 << "," << gamma_1 << "," << alpha_2 << "," << beta_2 << "," << gamma_2 << "," << rec_1 << "," << rec_2 << ",";
-    outfile << ","<< m_h_1 << "," << m_h_2 << "," << m_d_1 << "," << m_d_2 << ","<< gen;
+    outfile << m_h_1 << "," << m_h_2 << "," << m_d_1 << "," << m_d_2 << ","<< gen;
             
     
     outfile << "," << al_FREQ_1[0] << "," << al_FREQ_1[1] << "," << al_FREQ_1[2] << "," << al_FREQ_1[3];
