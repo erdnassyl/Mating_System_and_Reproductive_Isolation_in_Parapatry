@@ -3,7 +3,7 @@
 // Lyssandre Marchand M2 intership, codes inspired from Lucas Marie-Orleach et al. 2022. 
 
 // Deterministic model with infinite population 
-// Continent-Iland Case 
+// Continent-Island Case 
 
 #include <iostream>
 #include <string.h>
