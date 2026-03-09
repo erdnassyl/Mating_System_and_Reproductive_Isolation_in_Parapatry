@@ -48,14 +48,12 @@ double m_d_2(.0);
 // Fitness initialization, selection and dominance rates 
 double Fitness_1[10] = { 1,1,1,1,1,1,1,1,1,1 };
 double Fitness_2[10] = { 1,1,1,1,1,1,1,1,1,1 };
-double ha_1(.0);
-double sa_1(.0);
-double hb_1(.0); 
-double sb_1(.0);
-double ha_2(.0);
-double sa_2(.0);
-double hb_2(.0); 
-double sb_2(.0);
+double alpha_1(.0);
+double beta_1(.0);
+double gamma_1(.0);
+double alpha_2(.0);
+double beta_2(.0);
+double gamma_2(.0); 
 
 // Recombination rates
 double rec_1(.0);
@@ -88,27 +86,25 @@ int main(int, char* argv[]) {
   mu_Aa_1=mu_Bb_1=atof(argv[7]);
   mu_Aa_2=mu_Bb_2=atof(argv[8]);
   
-  ha_1=atof(argv[9]);
-  sa_1=atof(argv[10]); 
-  hb_1=atof(argv[11]);
-  sb_1=atof(argv[12]);
-  ha_2=atof(argv[13]);
-  sa_2=atof(argv[14]);
-  hb_2=atof(argv[15]);
-  sb_2=atof(argv[16]);
+  alpha_1=atof(argv[9]);
+  beta_1=atof(argv[10]); 
+  gamma_1=atof(argv[11]);
+  alpha_2=atof(argv[12]);
+  beta_2=atof(argv[13]);
+  gamma_2=atof(argv[14]);
   
-  rec_1=atof(argv[17]);
-  rec_2=atof(argv[18]);
+  rec_1=atof(argv[15]);
+  rec_2=atof(argv[16]);
   
-  h_B_1=k_B_1=atof(argv[19]);
-  s_B_1=atof(argv[20])*pow(10,atof(argv[21]));
-  h_B_2=k_B_2=atof(argv[23]);
-  s_B_2=atof(argv[24])*pow(10,atof(argv[25]));
+  h_B_1=k_B_1=atof(argv[17]);
+  s_B_1=atof(argv[18])*pow(10,atof(argv[19]));
+  h_B_2=k_B_2=atof(argv[20]);
+  s_B_2=atof(argv[21])*pow(10,atof(argv[22]));
   
-  m_h_1=atof(argv[26]);
-  m_h_2=atof(argv[27]);
-  m_d_1=atof(argv[28]);
-  m_d_2=atof(argv[29]);
+  m_h_1=atof(argv[23]);
+  m_h_2=atof(argv[24]);
+  m_d_1=atof(argv[25]);
+  m_d_2=atof(argv[26]);
 
   // Fixation threshold 
   double epsilon=1e-3;
@@ -134,8 +130,8 @@ int main(int, char* argv[]) {
   Me_Mu_MATRIX_COMP(Me_Matrix_2, Mu_Matrix_2, Me_Mu_Matrix_2);
   		
   // Compute Fitness landsacpe
-  FITNESS_LANDSCAPE_BM(sa_1, ha_1, sb_1, hb_1, s_B_1, h_B_1, k_B_1, Fitness_1);
-  FITNESS_LANDSCAPE_BM(sa_2, ha_2, sb_2, hb_2, s_B_2, h_B_2, k_B_2, Fitness_2);
+  FITNESS_LANDSCAPE(alpha_1, beta_1, gamma_1, Fitness_1);
+  FITNESS_LANDSCAPE(alpha_2, beta_2, gamma_2, Fitness_2);
   	
   for (int k(0); k < (int)N_iter; ++k) {
      
@@ -240,8 +236,8 @@ int main(int, char* argv[]) {
     std::ofstream outfile;
     outfile.open("Output_TL_BM.csv", std::ios_base::app);
     outfile << threshold << "," << N_iter << "," << span << "," << interval << "," << self_r_1 << "," << self_r_2 << ",";
-    outfile << mu_Aa_1 << "," << mu_aA_1 << "," << mu_Bb_1 << ","<< mu_bB_1 <<","<< mu_Aa_2 << "," << mu_aA_2 << "," << mu_Bb_2 << ","<< mu_bB_2 << ","<< ha_1 << "," << sa_1 << "," << hb_1 << "," << sb_1 << "," << ha_2 << "," << sa_2 << "," << hb_2 << "," << sb_2 << ","<< rec_1 << "," << rec_2 << ","<< h_B_1 << "," ;
-    outfile << k_B_1 << "," << s_B_1 << ","<< h_B_2 << "," << k_B_2 << "," << s_B_2 << ","<< m_h_1 << "," << m_h_2 << "," << m_d_1 << "," << m_d_2 << ","<< gen;
+    outfile << mu_Aa_1 << "," << mu_aA_1 << "," << mu_Bb_1 << ","<< mu_bB_1 <<","<< mu_Aa_2 << "," << mu_aA_2 << "," << mu_Bb_2 << ","<< mu_bB_2 << ","<< alpha_1 << "," << beta_1 << "," << gamma_1 << "," << alpha_2 << "," << beta_2 << "," << gamma_2 << "," rec_1 << "," << rec_2 << ",";
+    outfile << ","<< m_h_1 << "," << m_h_2 << "," << m_d_1 << "," << m_d_2 << ","<< gen;
             
     
     outfile << "," << al_FREQ_1[0] << "," << al_FREQ_1[1] << "," << al_FREQ_1[2] << "," << al_FREQ_1[3];
