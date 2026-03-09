@@ -20,7 +20,7 @@ fi
 # Paramètres fixes
 threshold=1000000
 iteration=1
-span=10
+span=0
 interval=10
 
 touch Output_TL_BM.csv
