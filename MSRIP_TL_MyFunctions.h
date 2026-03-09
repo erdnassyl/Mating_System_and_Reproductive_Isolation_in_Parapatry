@@ -82,6 +82,22 @@ void FITNESS_LANDSCAPE_BM(const double sa, const double ha, const double sb, con
 	Fitness[9] = (1 + sa) * (1 + sb) * (1 + s_B);
 }
 
+// Compute Fitness Landscape given Bank, Bürger and Hermisson 2011 article. 
+// With alpha the fitness of aAbb, beta the fitness of aaBb and gamma the epistasy rate. 
+void FITNESS_LANDSCAPE(const double alpha, const double beta, const double gamma, double* Fitness)
+{
+	Fitness[0] = alpha + beta - (4 * gamma);
+	Fitness[1] = alpha + beta - (2 * gamma);
+	Fitness[2] = alpha + beta - (2 * gamma);
+	Fitness[3] = alpha + beta - gamma;
+	Fitness[4] = 2 * alpha;
+	Fitness[5] = alpha + beta - gamma;
+	Fitness[6] = alpha;
+	Fitness[7] = 2 * beta;
+	Fitness[8] = beta;
+	Fitness[9] = 0;
+}
+
 // Compute gamete haplotypes given adult genotypes and the Meiose Mutation Matrix
 void GAMETE_PROD(const double dip_IND[10], const double Me_Mu_Matrix[][4], double* hap_FREQ)
 {
