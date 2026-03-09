@@ -24,8 +24,6 @@ using namespace std;
 // Define parameters
 unsigned long long int threshold(0);
 unsigned long long int N_iter(0);
-// unsigned int N_1(0); -> note : infinite population, donc pas besoin
-// unsigned int N_2(0);
 
 // Mutation parameters
 double mu_Aa_1(.0);
