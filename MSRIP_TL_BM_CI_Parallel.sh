@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Script local pour PC - adaptation de MSRIP_TL_BM_Parallel.sh
+# Script pour Continent-Island case
 
 # Nettoyage des fichiers précédents
 rm -f ./msri.exe
@@ -9,7 +10,7 @@ rm -f ./Output*.csv
 
 # Compilation 
 echo "Compilation en cours..."
-g++ -O3 -Wall -Wextra -std=c++11 -I/mingw64/include -L/mingw64/lib -o msri.exe ./MSRIP_TL_BM_Main.cpp -lgsl -lgslcblas -lm
+g++ -O3 -Wall -Wextra -std=c++11 -I/mingw64/include -L/mingw64/lib -o msri.exe ./MSRIP_TL_BM_CI_Main.cpp -lgsl -lgslcblas -lm
 
 if [ $? -ne 0 ]; then
     echo "ERREUR : la compilation a échoué."
