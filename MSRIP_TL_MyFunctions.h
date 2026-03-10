@@ -73,14 +73,14 @@ void FITNESS_LANDSCAPE_BM(const double sa, const double ha, const double sb, con
 	Fitness[0] = 1;
 	Fitness[1] = (1 + (hb * sb));
 	Fitness[2] = (1 + (ha * sa));
-	Fitness[3] = (1 + (ha * sa)) * (1 + (hb * sb)) * (1 + epsilon_1);
+	Fitness[3] = (1 + (ha * sa)) * (1 + (hb * sb)) * (1 + epsilon_aa);
 	Fitness[4] = (1 + sb);
-	Fitness[5] = (1 + (ha * sa)) * (1 + (hb * sb)) * (1 + epsilon_2);
-	Fitness[6] = (1 + (ha * sa)) * (1 + sb) * (1 + epsilon_3);
+	Fitness[5] = (1 + (ha * sa)) * (1 + (hb * sb)) * (1 + epsilon_aa);
+	Fitness[6] = (1 + (ha * sa)) * (1 + sb) * (1 + epsilon_ad);
 	Fitness[7] = (1 + sa);
-	Fitness[8] = (1 + sa) * (1 + (hb * sb)) * (1 + epsilon_4);
-	Fitness[9] = (1 + sa) * (1 + sb) * (1 + epsilon_5);
-} // y a un problème dans cette fonction 
+	Fitness[8] = (1 + sa) * (1 + (hb * sb)) * (1 + epsilon_ad);
+	Fitness[9] = (1 + sa) * (1 + sb) * (1 + epsilon_dd);
+}
 
 // Compute gamete haplotypes given adult genotypes and the Meiose Mutation Matrix
 void GAMETE_PROD(const double dip_IND[10], const double Me_Mu_Matrix[][4], double* hap_FREQ)
