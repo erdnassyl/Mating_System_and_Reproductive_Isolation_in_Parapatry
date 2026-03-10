@@ -73,30 +73,14 @@ void FITNESS_LANDSCAPE_BM(const double sa, const double ha, const double sb, con
 	Fitness[0] = 1;
 	Fitness[1] = (1 + (hb * sb));
 	Fitness[2] = (1 + (ha * sa));
-	Fitness[3] = (1 + (ha * sa)) * (1 + (hb * sb)) * (1 + (k_B * h_B * s_B));
+	Fitness[3] = (1 + (ha * sa)) * (1 + (hb * sb)) * (1 + epsilon_1);
 	Fitness[4] = (1 + sb);
-	Fitness[5] = (1 + (ha * sa)) * (1 + (hb * sb)) * (1 + (k_B * h_B * s_B));
-	Fitness[6] = (1 + (ha * sa)) * (1 + sb) * (1 + (h_B * s_B));
+	Fitness[5] = (1 + (ha * sa)) * (1 + (hb * sb)) * (1 + epsilon_2);
+	Fitness[6] = (1 + (ha * sa)) * (1 + sb) * (1 + epsilon_3);
 	Fitness[7] = (1 + sa);
-	Fitness[8] = (1 + sa) * (1 + (hb * sb)) * (1 + (h_B * s_B));
-	Fitness[9] = (1 + sa) * (1 + sb) * (1 + s_B);
-}
-
-// Compute Fitness Landscape given Bank, Bürger and Hermisson 2011 article. 
-// With alpha the fitness of aAbb, beta the fitness of aaBb and gamma the epistasy rate. 
-void FITNESS_LANDSCAPE(const double alpha, const double beta, const double gamma, double* Fitness)
-{
-	Fitness[0] = 1 + (alpha + beta - (4 * gamma));
-	Fitness[1] = 1 + (alpha + beta - (2 * gamma));
-	Fitness[2] = 1 + (alpha + beta - (2 * gamma));
-	Fitness[3] = 1 + (alpha + beta - gamma);
-	Fitness[4] = 1 + (2 * alpha);
-	Fitness[5] = 1 + (alpha + beta - gamma);
-	Fitness[6] = 1 + alpha;
-	Fitness[7] = 1 + (2 * beta);
-	Fitness[8] = 1 + beta;
-	Fitness[9] = 1 + 0;
-}
+	Fitness[8] = (1 + sa) * (1 + (hb * sb)) * (1 + epsilon_4);
+	Fitness[9] = (1 + sa) * (1 + sb) * (1 + epsilon_5);
+} // y a un problème dans cette fonction 
 
 // Compute gamete haplotypes given adult genotypes and the Meiose Mutation Matrix
 void GAMETE_PROD(const double dip_IND[10], const double Me_Mu_Matrix[][4], double* hap_FREQ)
@@ -280,16 +264,16 @@ void SELECTION(const double dip_FREQ_pre_sel[10], const double Fitness[10], doub
 }
 
 // Diploid migration 
-void SEED_MIGRATION(const double m_d_1,const double m_d_2, const double Fitness_1[10], const double Fitness_2[10], const double pre_sel_1[10],const double pre_sel_2[10], double* final_seeds_1, double* final_seeds_2 )
+void SEED_MIGRATION_ISLAND(const double m_d, const double Fitness_1[10], const double Fitness_2[10], const double pre_sel_1[10],const double pre_sel_2[10], double* final_seeds_2 )
 {
-	double selected_local[10]={0};
-	double selected_immigrant[10]={0};
-	SELECTION(pre_sel_1,Fitness_1,selected_local);
-	SELECTION(pre_sel_2,Fitness_2,selected_immigrant);
+	double selected_1[10]={0};
+	double selected_2[10]={0};
+	SELECTION(pre_sel_1,Fitness_1,selected_1); // Continent 
+	SELECTION(pre_sel_2,Fitness_2,selected_2); // Island
 
 	for (int j(0); j < 10; ++j){
-		final_seeds_1[j] = (1 - m_d_1) * selected_local[j] + m_d_1 * selected_immigrant[j];
-		final_seeds_2[j] = (1 - m_d_2) * selected_immigrant[j] + m_d_2 * selected_local[j];
+		// The continent is fixed so no migration towards it
+		final_seeds_2[j] = (1 - m_d) * selected_2[j] + m_d * selected_1[j]; //Selected seeds from continent migrate to island
 	}
 }
 
