@@ -174,11 +174,11 @@ int main(int, char* argv[]) {
       REPRODUCTION_POP2(self_r_2, dip_FREQ_2, Me_Mu_Matrix_2, after_repro_2, m_h_2, dip_FREQ_1, Me_Mu_Matrix_1);
 
       // Migration
-      SEED_MIGRATION(m_d_1, m_d_2, Fitness_1, Fitness_2, after_repro_1, after_repro_2, final_1, final_2);
+      SEED_MIGRATION_ISLAND(m_d, Fitness_1, Fitness_2, after_repro_1, after_repro_2, final_2);
 
       // Storing the new allelic frequences
       for(int i=0; i<10; ++i) {
-        dip_FREQ_1[i] = final_1[i];
+        dip_FREQ_1[i] = after_repro_1[i];
         dip_FREQ_2[i] = final_2[i];
       }
 
@@ -188,11 +188,9 @@ int main(int, char* argv[]) {
 
       double delta = 0.0;
       for (int i = 0; i < 3; ++i){
-        double d1 = std::abs(al_FREQ_1[i] - pre_al_FREQ_1[i]); // deltas computations for pop 1
-        double d2 = std::abs(al_FREQ_2[i] - pre_al_FREQ_2[i]); // deltas computations for pop 2
+        double d2 = std::abs(al_FREQ_2[i] - pre_al_FREQ_2[i]); // deltas computations for island
 
         // We take the highest value
-        if (d1 > delta) delta = d1;
         if (d2 > delta) delta = d2;
       }
 
