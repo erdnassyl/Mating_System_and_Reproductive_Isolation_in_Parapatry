@@ -3,7 +3,12 @@
 // Lyssandre Marchand M2 intership, codes inspired from Lucas Marie-Orleach et al. 2022. 
 
 // Deterministic model with infinite population 
-// Secondary Contact Case
+// Secondary Contact Case in Contient-Island Model
+
+// To follow Bank, Bürger and Hermisson 2011, we study the secondary contact after an allopatric phase
+// The continent is fixed for B and the island is fixed for A
+// Population 1 is the continent and is fixed with the continental haplotype aaBB
+// Population 2 is the island population with haplotype AAbb
 
 #include <iostream>
 #include <string.h>
@@ -42,18 +47,25 @@ double self_r_2(.0);
 // Haploid and diploid migration rates 
 double m_h_1(.0);
 double m_h_2(.0);
-double m_d_1(.0);
-double m_d_2(.0);
+double m_d(.0); // unidirectional geneflow from continent to island
 
 // Fitness initialization, selection and dominance rates 
 double Fitness_1[10] = { 1,1,1,1,1,1,1,1,1,1 };
 double Fitness_2[10] = { 1,1,1,1,1,1,1,1,1,1 };
-double alpha_1(.0);
-double beta_1(.0);
-double gamma_1(.0);
-double alpha_2(.0);
-double beta_2(.0);
-double gamma_2(.0); 
+double ha_1(.0);
+double sa_1(.0);
+double hb_1(.0);
+double sb_1(.0);
+double epsilon_aa_1(.0);
+double epsilon_ad_1(.0); 
+double epsilon_dd_1(.0);
+double ha_2(.0);
+double sa_2(.0);
+double hb_2(.0);
+double sb_2(.0);
+double epsilon_aa_2(.0);
+double epsilon_ad_2(.0); 
+double epsilon_dd_2(.0);
 
 // Recombination rates
 double rec_1(.0);
@@ -78,20 +90,27 @@ int main(int, char* argv[]) {
   mu_Aa_1=mu_Bb_1=atof(argv[7]);
   mu_Aa_2=mu_Bb_2=atof(argv[8]);
   
-  alpha_1=atof(argv[9]);
-  beta_1=atof(argv[10]); 
-  gamma_1=atof(argv[11]);
-  alpha_2=atof(argv[12]);
-  beta_2=atof(argv[13]);
-  gamma_2=atof(argv[14]);
+  ha_1=atof(argv[9]);
+  sa_1=atof(argv[10]); 
+  hb_1=atof(argv[11]);
+  sb_1=atof(argv[12]);
+  epsilon_aa_1=atof(argv[13]);
+  epsilon_ad_1=atof(argv[14]);
+  epsilon_dd_1=atof(argv[15]);
+  ha_2=atof(argv[16]);
+  sa_2=atof(argv[17]); 
+  hb_2=atof(argv[18]);
+  sb_2=atof(argv[19]);
+  epsilon_aa=atof(argv[20]);
+  epsilon_ad=atof(argv[21]);
+  epsilon_dd=atof(argv[22]);
   
-  rec_1=atof(argv[15]);
-  rec_2=atof(argv[16]);
+  rec_1=atof(argv[23]);
+  rec_2=atof(argv[24]);
   
-  m_h_1=atof(argv[17]);
-  m_h_2=atof(argv[18]);
-  m_d_1=atof(argv[19]);
-  m_d_2=atof(argv[20]);
+  m_h_1=atof(argv[25]);
+  m_h_2=atof(argv[26]);
+  m_d=atof(argv[27]);
 
   // Fixation threshold 
   double epsilon=1e-3;
