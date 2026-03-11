@@ -9,6 +9,7 @@
 // The continent is fixed for B and the island is fixed for A
 // Population 1 is the continent and is fixed with the continental haplotype aaBB
 // Population 2 is the island population with haplotype AAbb
+// BDMi mutations : A and B are incompatible
 
 #include <iostream>
 #include <string.h>
