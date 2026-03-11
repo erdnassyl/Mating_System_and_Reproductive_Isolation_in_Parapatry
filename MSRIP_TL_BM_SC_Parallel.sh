@@ -82,8 +82,8 @@ printf "threshold,iteration,span,interval,self_r_1,self_r_2," >> ColumnHeader_TL
 printf "ha_2,sa_2,hb_2,sb_2,gamma_2,rec_2," >> ColumnHeader_TL_BM_SC.csv
 printf "m_h_1,m_h_2,m_d,gen," >> ColumnHeader_TL_BM_SC.csv
 printf "A_FREQ_1,a_FREQ_1,B_FREQ_1,b_FREQ_1,A_FREQ_2,a_FREQ_2,B_FREQ_2,b_FREQ_2" >> ColumnHeader_TL_BM_SC.csv
-printf "AB/AB_0,AB/Ab_0,AB/aB_0,AB/ab_0,Ab/Ab_0,Ab/aB_0,Ab/ab_0,aB/aB_0,aB/ab_0,ab/ab_0_pop1," >> ColumnHeader_TL_BM_SC.csv
-printf "AB/AB_0,AB/Ab_0,AB/aB_0,AB/ab_0,Ab/Ab_0,Ab/aB_0,Ab/ab_0,aB/aB_0,aB/ab_0,ab/ab_0_pop2" >> ColumnHeader_TL_BM_SC.csv
+printf "ABAB_0,ABAb_0,ABaB_0,ABab_0,AbAb_0,AbaB_0,Abab_0,aBaB_0,aBab_0,abab_0_pop1," >> ColumnHeader_TL_BM_SC.csv
+printf "ABAB_0,ABAb_0,ABaB_0,ABab_0,AbAb_0,AbaB_0,Abab_0,aBaB_0,aBab_0,abab_0_pop2" >> ColumnHeader_TL_BM_SC.csv
 
 counter=1
 while [ $counter -le $span ]
