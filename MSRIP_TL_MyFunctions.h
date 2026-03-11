@@ -201,7 +201,7 @@ void REPRODUCTION_POP2(const double self_r_2, const double dip_IND_2[10], const 
 	double local_ovule[4] = {};
 	double local_pollen[4] = {};
 	GAMETE_PROD(dip_IND_2, Me_Mu_Matrix_2, local_ovule);
-	GAMETE_PROD(dip_IND_2, Me_Mu_Matrix_1, local_pollen);
+	GAMETE_PROD(dip_IND_2, Me_Mu_Matrix_2, local_pollen);
 
 	double out_local_dip_2[10] = {};
 	out_local_dip_2[0] = local_ovule[0] * local_pollen[0];
