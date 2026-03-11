@@ -30,7 +30,7 @@ using namespace std;
 unsigned long long int threshold(0);
 unsigned long long int N_iter(0);
 
-// Mutation parameters
+// Mutation parameters (will all be set at 0 because we are fixed)
 double mu_Aa_1(.0);
 double mu_aA_1(.0);
 double mu_Bb_1(.0);
@@ -56,16 +56,12 @@ double ha_1(.0);
 double sa_1(.0);
 double hb_1(.0);
 double sb_1(.0);
-double epsilon_aa_1(.0);
-double epsilon_ad_1(.0); 
-double epsilon_dd_1(.0);
+double gamma_1(.0);
 double ha_2(.0);
 double sa_2(.0);
 double hb_2(.0);
 double sb_2(.0);
-double epsilon_aa_2(.0);
-double epsilon_ad_2(.0); 
-double epsilon_dd_2(.0);
+double gamma_2(.0);
 
 // Recombination rates
 double rec_1(.0);
@@ -94,23 +90,19 @@ int main(int, char* argv[]) {
   sa_1=atof(argv[10]); 
   hb_1=atof(argv[11]);
   sb_1=atof(argv[12]);
-  epsilon_aa_1=atof(argv[13]);
-  epsilon_ad_1=atof(argv[14]);
-  epsilon_dd_1=atof(argv[15]);
-  ha_2=atof(argv[16]);
-  sa_2=atof(argv[17]); 
-  hb_2=atof(argv[18]);
-  sb_2=atof(argv[19]);
-  epsilon_aa=atof(argv[20]);
-  epsilon_ad=atof(argv[21]);
-  epsilon_dd=atof(argv[22]);
+  gamma_1=atof(argv[13]);
+  ha_2=atof(argv[14]);
+  sa_2=atof(argv[15]); 
+  hb_2=atof(argv[16]);
+  sb_2=atof(argv[17]);
+  gamma_2=atof(argv[18]);
   
-  rec_1=atof(argv[23]);
-  rec_2=atof(argv[24]);
+  rec_1=atof(argv[19]);
+  rec_2=atof(argv[20]);
   
-  m_h_1=atof(argv[25]);
-  m_h_2=atof(argv[26]);
-  m_d=atof(argv[27]);
+  m_h_1=atof(argv[21]);
+  m_h_2=atof(argv[22]);
+  m_d=atof(argv[23]);
 
   // Fixation threshold 
   double epsilon=1e-3;
@@ -233,7 +225,7 @@ int main(int, char* argv[]) {
     }
    
     //compute final allele frequencies
-    ALLELE_FREQ_COMP(final_1, al_FREQ_1);
+    ALLELE_FREQ_COMP(after_repro_1, al_FREQ_1);
     ALLELE_FREQ_COMP(final_2, al_FREQ_2);
  
     //Fill in output file
