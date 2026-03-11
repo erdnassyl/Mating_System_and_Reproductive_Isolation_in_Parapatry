@@ -166,7 +166,6 @@ int main(int, char* argv[]) {
       for(int i=0; i<10; ++i){ 
         after_repro_1[i]=0; 
         after_repro_2[i]=0; 
-        final_1[i]=0; 
         final_2[i]=0; 
       }
 
