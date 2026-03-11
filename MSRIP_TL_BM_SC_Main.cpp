@@ -129,8 +129,8 @@ int main(int, char* argv[]) {
   Me_Mu_MATRIX_COMP(Me_Matrix_2, Mu_Matrix_2, Me_Mu_Matrix_2);
   		
   // Compute Fitness landsacpe
-  FITNESS_LANDSCAPE(ha_1, sa_1, hb_1, sb_1, gamma_1, Fitness_1);
-  FITNESS_LANDSCAPE(ha_2, sa_2, hb_2, sb_2, gamma_2, Fitness_2);
+  FITNESS_LANDSCAPE_BM(ha_1, sa_1, hb_1, sb_1, gamma_1, Fitness_1);
+  FITNESS_LANDSCAPE_BM(ha_2, sa_2, hb_2, sb_2, gamma_2, Fitness_2);
   	
   for (int k(0); k < (int)N_iter; ++k) {
      
