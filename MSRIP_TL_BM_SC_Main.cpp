@@ -135,7 +135,7 @@ int main(int, char* argv[]) {
   for (int k(0); k < (int)N_iter; ++k) {
      
     // Condition initialisation
-    double dip_FREQ_1[10] ={0,0,0,0,0,0,1.0,0,0,0}; // aaBB continental fixed haplotype.
+    double dip_FREQ_1[10] ={0,0,0,0,0,0,0,1.0,0,0}; // aaBB continental fixed haplotype.
     double dip_FREQ_2[10] = {0,0,0,1.0,0,0,0,0,0,0}; // AAbb island fixed haplotype.
 
     double after_repro_1[10] = {};
