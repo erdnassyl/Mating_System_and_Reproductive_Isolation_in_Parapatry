@@ -188,7 +188,7 @@ int main(int, char* argv[]) {
 
       // Storing the new allelic frequences
       for(int i=0; i<10; ++i) {
-        dip_FREQ_1[i] = after_repro_1[i];
+        // dip_FREQ_1[i] = after_repro_1[i]; Not updating the continent because it is fixed. 
         dip_FREQ_2[i] = final_2[i];
       }
 
