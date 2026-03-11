@@ -51,8 +51,8 @@ for self_r_1 in 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9; do
                                           ./msri.exe ${threshold} ${iteration} ${span} ${interval} \
                                           ${self_r_1} ${self_r_2} \
                                           ${mu_1} ${mu_2} \
-                                          ${ha_1} ${sa_1} ${hb_1} ${sb_1} ${epsilon_aa_1} ${epsilon_ad_1} ${epsilon_dd_1}\
-                                          ${ha_2} ${sa_2} ${hb_2} ${sb_2} ${epsilon_aa_2} ${epsilon_ad_2} ${epsilon_dd_2}\
+                                          ${ha_1} ${sa_1} ${hb_1} ${sb_1} ${gamma_1}\
+                                          ${ha_2} ${sa_2} ${hb_2} ${sb_2} ${gamma_2}\
                                           ${rec_1} ${rec_2} \
                                           ${m_h_1} ${m_h_2} ${m_d}
                                           done
