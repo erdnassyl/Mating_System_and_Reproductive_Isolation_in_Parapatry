@@ -68,7 +68,7 @@ void Me_Mu_MATRIX_COMP(const double Me_Matrix[][4], const double Mu_Matrix[][4],
 }
 
 // Compute Fitness Landscape given coefficients of dominance and strenght of selection
-void FITNESS_LANDSCAPE_BM(const double sa, const double ha, const double sb, const double hb, const double gamma, double* Fitness)
+void FITNESS_LANDSCAPE_BM(const double ha, const double sa, const double hb, const double sb, const double gamma, double* Fitness)
 {
 
 	double epsilon_aa = gamma;
