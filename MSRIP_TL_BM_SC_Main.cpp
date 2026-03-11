@@ -140,7 +140,6 @@ int main(int, char* argv[]) {
 
     double after_repro_1[10] = {};
     double after_repro_2[10] = {};
-    double final_1[10] = {};
     double final_2[10] = {};
     
     double pre_al_FREQ_1[4] = {}; // Stores the previous allelic frequences at the beginning of the cycle
