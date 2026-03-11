@@ -41,7 +41,7 @@ for self_r_1 in 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9; do
                     for sa_2 in 0; do
                       for hb_2 in 0.5; do
                         for sb_2 in 0.5; do
-                          for gamma_2 in 0.1; do
+                          for gamma_2 in 0; do
                             for rec_1 in 0; do
                               for rec_2 in 0; do
                                 for m_h_1 in 0; do
