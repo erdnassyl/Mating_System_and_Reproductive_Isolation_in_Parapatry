@@ -68,23 +68,18 @@ void Me_Mu_MATRIX_COMP(const double Me_Matrix[][4], const double Mu_Matrix[][4],
 }
 
 // Compute Fitness Landscape given coefficients of dominance and strenght of selection
-void FITNESS_LANDSCAPE_BM(const double ha, const double sa, const double hb, const double sb, const double gamma, double* Fitness)
+void FITNESS_LANDSCAPE_BM(const double ha, const double sa, const double hb, const double sb, const double epsilon_1, const double epsilon_2, const double epsilon_3, const double epsilon_4, double* Fitness)
 {
-
-	double epsilon_aa = gamma;
-	double epsilon_ad = 2 * gamma;
-	double epsilon_dd = 4 * gamma;
-	
 	Fitness[0] = 1;
 	Fitness[1] = (1 + (hb * sb));
 	Fitness[2] = (1 + (ha * sa));
-	Fitness[3] = (1 + (ha * sa)) * (1 + (hb * sb)) * (1 + epsilon_aa);
+	Fitness[3] = (1 + (ha * sa)) * (1 + (hb * sb)) * (1 + epsilon_1);
 	Fitness[4] = (1 + sb);
-	Fitness[5] = (1 + (ha * sa)) * (1 + (hb * sb)) * (1 + epsilon_aa);
-	Fitness[6] = (1 + (ha * sa)) * (1 + sb) * (1 + epsilon_ad);
+	Fitness[5] = (1 + (ha * sa)) * (1 + (hb * sb)) * (1 + epsilon_2);
+	Fitness[6] = (1 + (ha * sa)) * (1 + sb) * (1 + epsilon_1);
 	Fitness[7] = (1 + sa);
-	Fitness[8] = (1 + sa) * (1 + (hb * sb)) * (1 + epsilon_ad);
-	Fitness[9] = (1 + sa) * (1 + sb) * (1 + epsilon_dd);
+	Fitness[8] = (1 + sa) * (1 + (hb * sb)) * (1 + epsilon_3);
+	Fitness[9] = (1 + sa) * (1 + sb) * (1 + epsilon_4);
 }
 
 // Compute gamete haplotypes given adult genotypes and the Meiose Mutation Matrix
@@ -277,8 +272,19 @@ void SEED_MIGRATION_ISLAND(const double m_d, const double Fitness_1[10], const d
 	SELECTION(pre_sel_2,Fitness_2,selected_2); // Island
 
 	for (int j(0); j < 10; ++j){
-		// The continent is fixed so no migration towards it
 		final_seeds_2[j] = (1 - m_d) * selected_2[j] + m_d * selected_1[j]; //Selected seeds from continent migrate to island
+	}
+}
+
+void SEED_MIGRATION_CONTINENT(const double m_d, const double Fitness_1[10], const double Fitness_2[10], const double pre_sel_1[10],const double pre_sel_2[10], double* final_seeds_1 )
+{
+	double selected_1[10]={0};
+	double selected_2[10]={0};
+	SELECTION(pre_sel_1,Fitness_1,selected_1); // Continent 
+	SELECTION(pre_sel_2,Fitness_2,selected_2); // Island
+
+	for (int j(0); j < 10; ++j){
+		final_seeds_1[j] = (1 - m_d) * selected_1[j] + m_d * selected_2[j]; //Selected seeds from island migrate to continent
 	}
 }
 
