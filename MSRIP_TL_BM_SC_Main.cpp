@@ -98,16 +98,16 @@ int main(int, char* argv[]) {
   sa_1=atof(argv[10]); 
   hb_1=atof(argv[11]);
   sb_1=atof(argv[12]);
-  epsilon_1=epsilon_2=atof(argv[13]);
-  epsilon_3=atof(argv[14]);
-  epsilon_4=atof(argv[15]);
+  epsilon_1_1=epsilon_2_1=atof(argv[13]);
+  epsilon_3_1=atof(argv[14]);
+  epsilon_4_1=atof(argv[15]);
   ha_2=atof(argv[16]);
   sa_2=atof(argv[17]); 
   hb_2=atof(argv[18]);
   sb_2=atof(argv[19]);
-  epsilon_1=epsilon_2=atof(argv[20]);
-  epsilon_3=atof(argv[21]);
-  epsilon_4=atof(argv[22]);
+  epsilon_1_2=epsilon_2=_2atof(argv[20]);
+  epsilon_3_2=atof(argv[21]);
+  epsilon_4_2=atof(argv[22]);
   
   rec_1=atof(argv[23]);
   rec_2=atof(argv[24]);
@@ -115,7 +115,7 @@ int main(int, char* argv[]) {
   m_h_1=atof(argv[25]);
   m_h_2=atof(argv[26]);
   m_d_1=atof(argv[27]);
-  m_d_2=atof(zrgv[28]);
+  m_d_2=atof(argv[28]);
 
   // Fixation threshold 
   double epsilon=1e-6;
@@ -141,8 +141,8 @@ int main(int, char* argv[]) {
   Me_Mu_MATRIX_COMP(Me_Matrix_2, Mu_Matrix_2, Me_Mu_Matrix_2);
   		
   // Compute Fitness landsacpe
-  FITNESS_LANDSCAPE_BM(ha_1, sa_1, hb_1, sb_1, gamma_1, Fitness_1);
-  FITNESS_LANDSCAPE_BM(ha_2, sa_2, hb_2, sb_2, gamma_2, Fitness_2);
+  FITNESS_LANDSCAPE_BM(ha_1, sa_1, hb_1, sb_1, epsilon_1_1, epsilon_2_1, epsilon_3_1, epsilon_4_1, Fitness_1);
+  FITNESS_LANDSCAPE_BM(ha_2, sa_2, hb_2, sb_2, epsilon_1_2, epsilon_2_2, epsilon_3_2, epsilon_4_2, Fitness_2);
   	
   for (int k(0); k < (int)N_iter; ++k) {
      
@@ -152,6 +152,7 @@ int main(int, char* argv[]) {
 
     double after_repro_1[10] = {};
     double after_repro_2[10] = {};
+    double final_1[10] = {};
     double final_2[10] = {};
     
     double pre_al_FREQ_1[4] = {}; // Stores the previous allelic frequences at the beginning of the cycle
@@ -245,7 +246,7 @@ int main(int, char* argv[]) {
     std::ofstream outfile;
     outfile.open("Output_TL_BM_SC.csv", std::ios_base::app);
     outfile << threshold << "," << N_iter << "," << span << "," << interval << "," << self_r_1 << "," << self_r_2 << ",";
-    outfile << ha_2 << "," << sa_2 << "," << hb_2 << "," << sb_2 << "," << epsilon_1_2 << "," << epsilon_2_2 << "," << epsilon_2_3 << ","<< rec_2 << ",";
+    outfile << ha_2 << "," << sa_2 << "," << hb_2 << "," << sb_2 << "," << epsilon_1_2 << "," << epsilon_2_2 << "," << epsilon_3_2 << ","<< rec_2 << ",";
     outfile << m_h_1 << "," << m_h_2 << "," << m_d_1 << "," << m_d_2 << "," << gen;
             
     outfile << "," << al_FREQ_1[0] << "," << al_FREQ_1[1] << "," << al_FREQ_1[2] << "," << al_FREQ_1[3];
