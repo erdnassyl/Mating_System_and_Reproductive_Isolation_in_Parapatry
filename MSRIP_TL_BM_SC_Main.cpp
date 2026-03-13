@@ -9,7 +9,7 @@
 // The continent is fixed for B and the island is fixed for A
 // Population 1 is the continent and is fixed with the continental haplotype aaBB
 // Population 2 is the island population with haplotype AAbb
-// BDMi mutations : A and B are incompatible
+// BDMi mutations : a and b are incompatible
 
 #include <iostream>
 #include <string.h>
@@ -48,7 +48,8 @@ double self_r_2(.0);
 // Haploid and diploid migration rates 
 double m_h_1(.0);
 double m_h_2(.0);
-double m_d(.0); // unidirectional geneflow from continent to island
+double m_d_1(.0); 
+double m_d_2(.0);
 
 // Fitness initialization, selection and dominance rates 
 double Fitness_1[10] = { 1,1,1,1,1,1,1,1,1,1 };
@@ -57,12 +58,18 @@ double ha_1(.0);
 double sa_1(.0);
 double hb_1(.0);
 double sb_1(.0);
-double gamma_1(.0);
+double epsilon_1_1(.0);
+double epsilon_2_1(.0);
+double epsilon_3_1(.0);
+double epsilon_4_1(.0);
 double ha_2(.0);
 double sa_2(.0);
 double hb_2(.0);
 double sb_2(.0);
-double gamma_2(.0);
+double epsilon_1_2(.0);
+double epsilon_2_2(.0);
+double epsilon_3_2(.0);
+double epsilon_4_2(.0);
 
 // Recombination rates
 double rec_1(.0);
@@ -91,22 +98,27 @@ int main(int, char* argv[]) {
   sa_1=atof(argv[10]); 
   hb_1=atof(argv[11]);
   sb_1=atof(argv[12]);
-  gamma_1=atof(argv[13]);
-  ha_2=atof(argv[14]);
-  sa_2=atof(argv[15]); 
-  hb_2=atof(argv[16]);
-  sb_2=atof(argv[17]);
-  gamma_2=atof(argv[18]);
+  epsilon_1=epsilon_2=atof(argv[13]);
+  epsilon_3=atof(argv[14]);
+  epsilon_4=atof(argv[15]);
+  ha_2=atof(argv[16]);
+  sa_2=atof(argv[17]); 
+  hb_2=atof(argv[18]);
+  sb_2=atof(argv[19]);
+  epsilon_1=epsilon_2=atof(argv[20]);
+  epsilon_3=atof(argv[21]);
+  epsilon_4=atof(argv[22]);
   
-  rec_1=atof(argv[19]);
-  rec_2=atof(argv[20]);
+  rec_1=atof(argv[23]);
+  rec_2=atof(argv[24]);
   
-  m_h_1=atof(argv[21]);
-  m_h_2=atof(argv[22]);
-  m_d=atof(argv[23]);
+  m_h_1=atof(argv[25]);
+  m_h_2=atof(argv[26]);
+  m_d_1=atof(argv[27]);
+  m_d_2=atof(zrgv[28]);
 
   // Fixation threshold 
-  double epsilon=1e-3;
+  double epsilon=1e-6;
 
   //////// MEIOSIS_MUTATION MATRICES AND FITNESS
   
@@ -166,6 +178,7 @@ int main(int, char* argv[]) {
       for(int i=0; i<10; ++i){ 
         after_repro_1[i]=0; 
         after_repro_2[i]=0; 
+        final_1[i]=0;
         final_2[i]=0; 
       }
 
@@ -184,11 +197,12 @@ int main(int, char* argv[]) {
       REPRODUCTION_POP2(self_r_2, dip_FREQ_2, Me_Mu_Matrix_2, after_repro_2, m_h_2, dip_FREQ_1, Me_Mu_Matrix_1);
 
       // Migration
-      SEED_MIGRATION_ISLAND(m_d, Fitness_1, Fitness_2, after_repro_1, after_repro_2, final_2);
+      SEED_MIGRATION_CONTINENT(m_d_2, Fitness_1, Fitness_2, after_repro_1, after_repro_2, final_1);
+      SEED_MIGRATION_ISLAND(m_d_1, Fitness_1, Fitness_2, after_repro_1, after_repro_2, final_2);
 
       // Storing the new allelic frequences
       for(int i=0; i<10; ++i) {
-        // dip_FREQ_1[i] = after_repro_1[i]; Not updating the continent because it is fixed. 
+        dip_FREQ_1[i] = final_1[i];
         dip_FREQ_2[i] = final_2[i];
       }
 
@@ -224,15 +238,15 @@ int main(int, char* argv[]) {
     }
    
     //compute final allele frequencies
-    ALLELE_FREQ_COMP(after_repro_1, al_FREQ_1);
+    ALLELE_FREQ_COMP(final_1, al_FREQ_1);
     ALLELE_FREQ_COMP(final_2, al_FREQ_2);
  
     //Fill in output file
     std::ofstream outfile;
     outfile.open("Output_TL_BM_SC.csv", std::ios_base::app);
     outfile << threshold << "," << N_iter << "," << span << "," << interval << "," << self_r_1 << "," << self_r_2 << ",";
-    outfile << ha_2 << "," << sa_2 << "," << hb_2 << "," << sb_2 << "," << gamma_2 << "," << rec_2 << ",";
-    outfile << m_h_1 << "," << m_h_2 << "," << m_d << "," << gen;
+    outfile << ha_2 << "," << sa_2 << "," << hb_2 << "," << sb_2 << "," << epsilon_1_2 << "," << epsilon_2_2 << "," << epsilon_2_3 << ","<< rec_2 << ",";
+    outfile << m_h_1 << "," << m_h_2 << "," << m_d_1 << "," << m_d_2 << "," << gen;
             
     outfile << "," << al_FREQ_1[0] << "," << al_FREQ_1[1] << "," << al_FREQ_1[2] << "," << al_FREQ_1[3];
     outfile << "," << al_FREQ_2[0] << "," << al_FREQ_2[1] << "," << al_FREQ_2[2] << "," << al_FREQ_2[3];
