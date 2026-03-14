@@ -105,7 +105,7 @@ int main(int, char* argv[]) {
   sa_2=atof(argv[17]); 
   hb_2=atof(argv[18]);
   sb_2=atof(argv[19]);
-  epsilon_1_2=epsilon_2=atof(argv[20]);
+  epsilon_1_2=epsilon_2_2=atof(argv[20]);
   epsilon_3_2=atof(argv[21]);
   epsilon_4_2=atof(argv[22]);
   
