@@ -44,14 +44,14 @@ for self_r_1 in 0; do
                           for hb_2 in 0.5; do
                             for sb_2 in 0; do
                               for epsislon_1_2 in 0; do      # epsilon_1_2 = epsilon_2_2
-                                for epsilon_3_2 in -0.0025; do  # epsilon_3_2
+                                for epsilon_3_2 in 0; do  # epsilon_3_2
                                   for epsilon_4_2 in 0; do       # epsilon_4_2
                                     for rec_1 in 0; do
                                       for rec_2 in 0; do
                                         for m_h_1 in 0; do
                                           for m_h_2 in 0; do
                                             for m_d_1 in 0; do
-                                              for m_d_2 in 0.1; do
+                                              for m_d_2 in 0; do
                                                 echo "Running..."
                                                 ./msri.exe \
                                                   ${threshold} ${iteration} ${span} ${interval} \
@@ -94,7 +94,8 @@ printf "ha_2,sa_2,hb_2,sb_2,epsilon_1_2,epsilon_2_2,epsilon_3_2,rec_2," >> Colum
 printf "m_h_1,m_h_2,m_d_1,m_d_2,gen," >> ColumnHeader_TL_BM_SC.csv
 printf "A_FREQ_1,a_FREQ_1,B_FREQ_1,b_FREQ_1," >> ColumnHeader_TL_BM_SC.csv
 printf "A_FREQ_2,a_FREQ_2,B_FREQ_2,b_FREQ_2" >> ColumnHeader_TL_BM_SC.csv
-
+printf "ABAB_0,ABAb_0,ABaB_0,ABab_0,AbAb_0,AbaB_0,Abab_0,aBaB_0,aBab_0,abab_0_pop1," >> ColumnHeader_TL_BM_SC.csv
+printf "ABAB_0,ABAb_0,ABaB_0,ABab_0,AbAb_0,AbaB_0,Abab_0,aBaB_0,aBab_0,abab_0_pop2" >> ColumnHeader_TL_BM_SC.csv
 
 counter=1
 while [ $counter -le $span ]
