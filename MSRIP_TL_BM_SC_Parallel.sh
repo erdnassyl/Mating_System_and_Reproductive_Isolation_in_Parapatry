@@ -94,8 +94,7 @@ printf "ha_2,sa_2,hb_2,sb_2,epsilon_1_2,epsilon_2_2,epsilon_3_2,rec_2," >> Colum
 printf "m_h_1,m_h_2,m_d_1,m_d_2,gen," >> ColumnHeader_TL_BM_SC.csv
 printf "A_FREQ_1,a_FREQ_1,B_FREQ_1,b_FREQ_1," >> ColumnHeader_TL_BM_SC.csv
 printf "A_FREQ_2,a_FREQ_2,B_FREQ_2,b_FREQ_2" >> ColumnHeader_TL_BM_SC.csv
-printf "ABAB_0,ABAb_0,ABaB_0,ABab_0,AbAb_0,AbaB_0,Abab_0,aBaB_0,aBab_0,abab_0_pop1," >> ColumnHeader_TL_BM_SC.csv
-printf "ABAB_0,ABAb_0,ABaB_0,ABab_0,AbAb_0,AbaB_0,Abab_0,aBaB_0,aBab_0,abab_0_pop2" >> ColumnHeader_TL_BM_SC.csv
+printf "ABAB_0_pop1,ABAB_0_pop2,ABAb_0_pop1,ABAb_0_pop2,ABaB_0_pop1,ABaB_0_pop2,ABab_0_pop1,ABab_0_pop2,AbAb_0_pop1,AbAb_0_pop2,AbaB_0_pop1,AbaB_0_pop2,Abab_0_pop1,Abab_0_pop2,aBaB_0_pop1,aBaB_0_pop2,aBab_0_pop1,aBab_0_pop2,abab_0_pop1,abab_0_pop2" >> ColumnHeader_TL_BM_SC.csv
 
 counter=1
 while [ $counter -le $span ]
