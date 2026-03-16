@@ -198,8 +198,8 @@ int main(int, char* argv[]) {
       REPRODUCTION_POP2(self_r_2, dip_FREQ_2, Me_Mu_Matrix_2, after_repro_2, m_h_2, dip_FREQ_1, Me_Mu_Matrix_1);
 
       // Migration
-      SEED_MIGRATION_CONTINENT(m_d_2, Fitness_1, Fitness_2, after_repro_1, after_repro_2, final_1);
-      SEED_MIGRATION_ISLAND(m_d_1, Fitness_1, Fitness_2, after_repro_1, after_repro_2, final_2);
+      SEED_MIGRATION_POP1(m_d_2, Fitness_1, Fitness_2, after_repro_1, after_repro_2, final_1);
+      SEED_MIGRATION_POP2(m_d_1, Fitness_1, Fitness_2, after_repro_1, after_repro_2, final_2);
 
       // Storing the new allelic frequences
       for(int i=0; i<10; ++i) {
