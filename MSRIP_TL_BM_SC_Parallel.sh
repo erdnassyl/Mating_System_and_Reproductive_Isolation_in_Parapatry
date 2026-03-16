@@ -90,7 +90,7 @@ echo "Simulations terminées !"
 
 # CSV Header
 printf "threshold,iteration,span,interval,self_r_1,self_r_2," > ColumnHeader_TL_BM_SC.csv
-printf "ha_2,sa_2,hb_2,sb_2,epsilon_1_2,epsilon_2_2,epsilon_3_2,rec_2," >> ColumnHeader_TL_BM_SC.csv
+printf "ha_2,sa_2,hb_2,sb_2,epsilon_1_2,epsilon_3_2,epsilon_4_2,rec_2," >> ColumnHeader_TL_BM_SC.csv
 printf "m_h_1,m_h_2,m_d_1,m_d_2,gen," >> ColumnHeader_TL_BM_SC.csv
 printf "A_FREQ_1,a_FREQ_1,B_FREQ_1,b_FREQ_1," >> ColumnHeader_TL_BM_SC.csv
 printf "A_FREQ_2,a_FREQ_2,B_FREQ_2,b_FREQ_2," >> ColumnHeader_TL_BM_SC.csv
