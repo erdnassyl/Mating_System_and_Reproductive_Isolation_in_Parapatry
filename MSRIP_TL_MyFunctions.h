@@ -85,9 +85,9 @@ void FITNESS_LANDSCAPE_BM(const double ha, const double sa, const double hb, con
 // Compute gamete haplotypes given adult genotypes and the Meiose Mutation Matrix
 void GAMETE_PROD(const double dip_IND[10], const double Me_Mu_Matrix[][4], double* hap_FREQ)
 {
-	for (int k = 0; k < 4; ++k) { // Remise à 0 car on store avec += donc risque d'accumulation
-		hap_FREQ[k] = 0;
-			}
+	// for (int k = 0; k < 4; ++k) { // Remise à 0 car on store avec += donc risque d'accumulation
+		// hap_FREQ[k] = 0;
+		//	}
 	
 	for (int i(0); i < 10; ++i) {
 		for (int j(0); j < 4; ++j) {
