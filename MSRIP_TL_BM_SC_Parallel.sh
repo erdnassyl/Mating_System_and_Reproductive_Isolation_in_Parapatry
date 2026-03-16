@@ -29,7 +29,7 @@ echo "Simulations starting..."
 
 
 for self_r_1 in 0; do
-  for self_r_2 in 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9; do
+  for self_r_2 in 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 0.99; do
     for mu_1 in 0; do
       for mu_2 in 0; do
         for ha_1 in 0.5; do
@@ -40,18 +40,18 @@ for self_r_1 in 0; do
                   for epsilon_3_1 in 0; do       # epsilon_3_1
                     for epsilon_4_1 in 0; do     # epsilon_4_1
                       for ha_2 in 0.5; do
-                        for sa_2 in 0; do
+                        for sa_2 in 0.1; do
                           for hb_2 in 0.5; do
-                            for sb_2 in 0; do
-                              for epsislon_1_2 in 0; do      # epsilon_1_2 = epsilon_2_2
-                                for epsilon_3_2 in 0; do  # epsilon_3_2
-                                  for epsilon_4_2 in 0; do       # epsilon_4_2
+                            for sb_2 in -0.06; do
+                              for epsislon_1_2 in -0.25; do      # epsilon_1_2 = epsilon_2_2
+                                for epsilon_3_2 in -0.5; do  # epsilon_3_2
+                                  for epsilon_4_2 in -0.75; do       # epsilon_4_2
                                     for rec_1 in 0; do
-                                      for rec_2 in 0.001; do
-                                        for m_h_1 in 0; do
-                                          for m_h_2 in 0; do
-                                            for m_d_1 in 0; do
-                                              for m_d_2 in 0.01; do
+                                      for rec_2 in 0.01 0.1 0.5; do
+                                        for m_h_1 in 0; do    # flux du continent vers l'île
+                                          for m_h_2 in 0; do   # flux de l'île vers le continent 
+                                            for m_d_1 in 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.20 0.21 0.22 0.23 0.24 0.25; do
+                                              for m_d_2 in 0; do
                                                 echo "Running..."
                                                 ./msri.exe \
                                                   ${threshold} ${iteration} ${span} ${interval} \
