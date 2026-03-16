@@ -260,7 +260,7 @@ void SELECTION(const double dip_FREQ_pre_sel[10], const double Fitness[10], doub
 }
 
 // Diploid migration 
-void SEED_MIGRATION_POP1(const double m_d_1, const double Fitness_1[10], const double Fitness_2[10], const double pre_sel_1[10],const double pre_sel_2[10], double* final_seeds_1 )
+void SEED_MIGRATION_POP1(const double m_d_2, const double Fitness_1[10], const double Fitness_2[10], const double pre_sel_1[10],const double pre_sel_2[10], double* final_seeds_1 )
 {
 	double selected_1[10]={0};
 	double selected_2[10]={0};
@@ -272,7 +272,7 @@ void SEED_MIGRATION_POP1(const double m_d_1, const double Fitness_1[10], const d
 	}
 }
 
-void SEED_MIGRATION_POP2(const double m_d, const double Fitness_1[10], const double Fitness_2[10], const double pre_sel_1[10],const double pre_sel_2[10], double* final_seeds_2 )
+void SEED_MIGRATION_POP2(const double m_d_1, const double Fitness_1[10], const double Fitness_2[10], const double pre_sel_1[10],const double pre_sel_2[10], double* final_seeds_2 )
 {
 	double selected_1[10]={0};
 	double selected_2[10]={0};
