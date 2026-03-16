@@ -264,19 +264,7 @@ void SELECTION(const double dip_FREQ_pre_sel[10], const double Fitness[10], doub
 }
 
 // Diploid migration 
-void SEED_MIGRATION_ISLAND(const double m_d, const double Fitness_1[10], const double Fitness_2[10], const double pre_sel_1[10],const double pre_sel_2[10], double* final_seeds_2 )
-{
-	double selected_1[10]={0};
-	double selected_2[10]={0};
-	SELECTION(pre_sel_1,Fitness_1,selected_1); // Continent 
-	SELECTION(pre_sel_2,Fitness_2,selected_2); // Island
-
-	for (int j(0); j < 10; ++j){
-		final_seeds_2[j] = (1 - m_d) * selected_2[j] + m_d * selected_1[j]; //Selected seeds from continent migrate to island
-	}
-}
-
-void SEED_MIGRATION_CONTINENT(const double m_d, const double Fitness_1[10], const double Fitness_2[10], const double pre_sel_1[10],const double pre_sel_2[10], double* final_seeds_1 )
+void SEED_MIGRATION_POP1(const double m_d, const double Fitness_1[10], const double Fitness_2[10], const double pre_sel_1[10],const double pre_sel_2[10], double* final_seeds_1 )
 {
 	double selected_1[10]={0};
 	double selected_2[10]={0};
@@ -285,6 +273,18 @@ void SEED_MIGRATION_CONTINENT(const double m_d, const double Fitness_1[10], cons
 
 	for (int j(0); j < 10; ++j){
 		final_seeds_1[j] = (1 - m_d) * selected_1[j] + m_d * selected_2[j]; //Selected seeds from island migrate to continent
+	}
+}
+
+void SEED_MIGRATION_POP2(const double m_d, const double Fitness_1[10], const double Fitness_2[10], const double pre_sel_1[10],const double pre_sel_2[10], double* final_seeds_2 )
+{
+	double selected_1[10]={0};
+	double selected_2[10]={0};
+	SELECTION(pre_sel_1,Fitness_1,selected_1); // Continent 
+	SELECTION(pre_sel_2,Fitness_2,selected_2); // Island
+
+	for (int j(0); j < 10; ++j){
+		final_seeds_2[j] = (1 - m_d) * selected_2[j] + m_d * selected_1[j]; //Selected seeds from continent migrate to island
 	}
 }
 
