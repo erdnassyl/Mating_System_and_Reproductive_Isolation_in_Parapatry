@@ -47,11 +47,11 @@ for self_r_1 in 0; do
                                 for epsilon_3_2 in 0; do  # epsilon_3_2
                                   for epsilon_4_2 in 0; do       # epsilon_4_2
                                     for rec_1 in 0; do
-                                      for rec_2 in 0; do
+                                      for rec_2 in 0.001; do
                                         for m_h_1 in 0; do
                                           for m_h_2 in 0; do
                                             for m_d_1 in 0; do
-                                              for m_d_2 in 0; do
+                                              for m_d_2 in 0.01; do
                                                 echo "Running..."
                                                 ./msri.exe \
                                                   ${threshold} ${iteration} ${span} ${interval} \
