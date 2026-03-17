@@ -6,9 +6,9 @@
 // Secondary Contact Case in Contient-Island Model
 
 // To follow Bank, Bürger and Hermisson 2011, we study the secondary contact after an allopatric phase
-// The continent is fixed for B and the island is fixed for A
-// Population 1 is the continent and is fixed with the continental haplotype aaBB
-// Population 2 is the island population with haplotype AAbb
+// The continent is fixed for A and the island is fixed for B
+// Population 1 is the continent and is fixed with the continental haplotype AAbb
+// Population 2 is the island population with haplotype aaBB
 // BDMi mutations : a and b are incompatible
 
 #include <iostream>
@@ -147,8 +147,8 @@ int main(int, char* argv[]) {
   for (int k(0); k < (int)N_iter; ++k) {
      
     // Condition initialisation
-    double dip_FREQ_1[10] ={0,0,0,0,0,0,0,1.0,0,0}; // aaBB continental fixed haplotype.
-    double dip_FREQ_2[10] = {0,0,0,0,1.0,0,0,0,0,0}; // AAbb island fixed haplotype.
+    double dip_FREQ_1[10] ={0,0,0,0,1.0,0,0,0,0,0}; // AAbb continental fixed haplotype.
+    double dip_FREQ_2[10] = {0,0,0,0,0,0,0,1.0,0,0}; // aaBB island fixed haplotype.
 
     double after_repro_1[10] = {};
     double after_repro_2[10] = {};
