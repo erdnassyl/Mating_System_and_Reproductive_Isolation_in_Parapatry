@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <cmath>
+#include <algorithm>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_cdf.h>
@@ -118,7 +119,7 @@ int main(int, char* argv[]) {
   m_d_2=atof(argv[28]);
 
   // Fixation threshold 
-  double epsilon=1e-6;
+  double epsilon=1e-10;
 
   //////// MEIOSIS_MUTATION MATRICES AND FITNESS
   
@@ -148,7 +149,7 @@ int main(int, char* argv[]) {
      
     // Condition initialisation
     double dip_FREQ_1[10] ={0,0,0,0,1.0,0,0,0,0,0}; // AAbb continental fixed haplotype.
-    double dip_FREQ_2[10] = {0,0,0,0,0,0,0,1.0,0,0}; // aaBB island fixed haplotype.
+    double dip_FREQ_2[10] = {0,0,0,0,0,0,0,1,0,0}; // aaBB island fixed haplotype.
 
     double after_repro_1[10] = {};
     double after_repro_2[10] = {};
@@ -197,9 +198,15 @@ int main(int, char* argv[]) {
       REPRODUCTION_POP1(self_r_1, dip_FREQ_1, Me_Mu_Matrix_1, after_repro_1, m_h_1, dip_FREQ_2, Me_Mu_Matrix_2);
       REPRODUCTION_POP2(self_r_2, dip_FREQ_2, Me_Mu_Matrix_2, after_repro_2, m_h_2, dip_FREQ_1, Me_Mu_Matrix_1);
 
+      // Selection
+       double selected_1[10]={};
+       double selected_2[10]={};
+      SELECTION(after_repro_1,Fitness_1,selected_1); // Continent 
+      SELECTION(after_repro_2,Fitness_2,selected_2); // Island
+
       // Migration
-      SEED_MIGRATION_POP1(m_d_2, Fitness_1, Fitness_2, after_repro_1, after_repro_2, final_1);
-      SEED_MIGRATION_POP2(m_d_1, Fitness_1, Fitness_2, after_repro_1, after_repro_2, final_2);
+      SEED_MIGRATION_POP1(m_d_2, selected_1, selected_2, final_1);
+      SEED_MIGRATION_POP2(m_d_1, selected_1, selected_2, final_2);
 
       // Storing the new allelic frequences
       for(int i=0; i<10; ++i) {
@@ -211,12 +218,20 @@ int main(int, char* argv[]) {
       ALLELE_FREQ_COMP(dip_FREQ_1, al_FREQ_1);
       ALLELE_FREQ_COMP(dip_FREQ_2, al_FREQ_2);
 
-      double delta = 0.0;
+      vector<double> deltas(3);
       for (int i = 0; i < 3; ++i){
-        double d2 = std::abs(al_FREQ_2[i] - pre_al_FREQ_2[i]); // deltas computations for island
+        deltas[i] = std::abs(al_FREQ_2[i] - pre_al_FREQ_2[i]); // deltas computations for island
+      }
+      
+      double delta = *max_element(deltas.begin(), deltas.end());
 
-        // We take the highest value
-        if (d2 > delta) delta = d2;
+      if (gen % 100 == 0) {
+          std::cerr << "gen=" << gen 
+                    << " AB_freq=" << al_FREQ_2[0]
+                    << " Ab_freq=" << al_FREQ_2[1]
+                    << " aB_freq=" << al_FREQ_2[2]
+                    << " ab_freq=" << al_FREQ_2[3]
+                    << " delta=" << delta << std::endl;
       }
 
       //Stop conditions
