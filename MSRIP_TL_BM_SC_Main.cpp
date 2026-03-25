@@ -17,7 +17,6 @@
 #include <stdio.h>
 #include <time.h>
 #include <cmath>
-#include <algorithm>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_cdf.h>
@@ -224,15 +223,6 @@ int main(int, char* argv[]) {
       }
       
       double delta = *max_element(deltas.begin(), deltas.end());
-
-      if (gen % 100 == 0) {
-          std::cerr << "gen=" << gen 
-                    << " AB_freq=" << al_FREQ_2[0]
-                    << " Ab_freq=" << al_FREQ_2[1]
-                    << " aB_freq=" << al_FREQ_2[2]
-                    << " ab_freq=" << al_FREQ_2[3]
-                    << " delta=" << delta << std::endl;
-      }
 
       //Stop conditions
         if (delta < epsilon || gen >= threshold){
