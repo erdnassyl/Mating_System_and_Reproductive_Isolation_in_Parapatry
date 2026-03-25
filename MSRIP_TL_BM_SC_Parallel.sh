@@ -23,13 +23,15 @@ iteration=1
 span=0
 interval=10
 
+# Génère des valeurs régulières avec awk
+
 touch Output_TL_BM_SC.csv
 
 echo "Simulations starting..."
 
 
 for self_r_1 in 0; do
-  for self_r_2 in 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 0.99; do
+  for self_r_2 in 0; do
     for mu_1 in 0; do
       for mu_2 in 0; do
         for ha_1 in 0.5; do
@@ -42,15 +44,15 @@ for self_r_1 in 0; do
                       for ha_2 in 0.5; do
                         for sa_2 in 0.1; do
                           for hb_2 in 0.5; do
-                            for sb_2 in -0.06; do
-                              for epsilon_1_2 in -0.25; do      # epsilon_1_2 = epsilon_2_2
-                                for epsilon_3_2 in -0.5; do  # epsilon_3_2
-                                  for epsilon_4_2 in -0.75; do       # epsilon_4_2
+                            for sb_2 in -0.1; do
+                              for epsilon_1_2 in -0.025; do      # epsilon_1_2 = epsilon_2_2
+                                for epsilon_3_2 in -0.050; do  # epsilon_3_2
+                                  for epsilon_4_2 in -0.1; do       # epsilon_4_2
                                     for rec_1 in 0; do
-                                      for rec_2 in 0.01 0.1 0.5; do
+                                      for rec_2 in 0.001 0.01 0.1 0.5; do
                                         for m_h_1 in 0; do    # flux du continent vers l'île
                                           for m_h_2 in 0; do   # flux de l'île vers le continent 
-                                            for m_d_1 in 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.20 0.21 0.22 0.23 0.24 0.25; do
+                                            for m_d_1 in 0 0.01 0.02 0.03 0.04 0.0411 0.0412 0.0413 0.0414 0.0415 0.0416 0.0417 0.0418 0.0419 0.042 0.0421 0.0422 0.0423 0.0424 0.0425 0.0426 0.0427 0.0428 0.0429 0.043 0.0431 0.0432 0.0433 0.0434 0.0435 0.0436 0.0437 0.0438 0.0439 0.044 0.0441 0.0442 0.0443 0.0444 0.0446 0.0447 0.0448 0.0449 0.045 0.046 0.0462 0.0464 0.0466 0.0468 0.047 0.048 0.049 0.05 0.06 0.07 0.08 0.09 0.1; do
                                               for m_d_2 in 0; do
                                                 echo "Running..."
                                                 ./msri.exe \
