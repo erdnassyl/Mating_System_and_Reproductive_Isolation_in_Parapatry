@@ -266,12 +266,17 @@ void SEED_MIGRATION_POP1(const double m_d_2, const double selected_1[10], const 
 		final_seeds_1[j] = (1 - m_d_2) * selected_1[j] + m_d_2 * selected_2[j]; //Selected seeds from island migrate to continent
 	}
 }
-
 void SEED_MIGRATION_POP2(const double m_d_1, const double selected_1[10], const double selected_2[10], double* final_seeds_2 )
 {
 	for (int j(0); j < 10; ++j){
 		final_seeds_2[j] = (1 - m_d_1) * selected_2[j] + m_d_1 * selected_1[j]; //Selected seeds from continent migrate to island
 	}
+}
+
+// Drift
+void DRIFT(const gsl_rng* r, const unsigned int N, const double dip_FREQ[], unsigned int* dip_IND)
+{
+	gsl_ran_multinomial(r, 10, N, dip_FREQ, dip_IND);
 }
 
 // Compute allele frequencies
@@ -281,4 +286,12 @@ void ALLELE_FREQ_COMP(const double* dip_FREQ, double* allele_FREQ)
 	allele_FREQ[1] = ((double)dip_FREQ[2] + (double)dip_FREQ[3] + (double)dip_FREQ[5] + (double)dip_FREQ[6] + (2 * (double)dip_FREQ[7]) + (2 * (double)dip_FREQ[8]) + (2 * (double)dip_FREQ[9])) / 2.0; // a
 	allele_FREQ[2] = ((2 * (double)dip_FREQ[0]) + (double)dip_FREQ[1] + (2 * (double)dip_FREQ[2]) + (double)dip_FREQ[3] + (double)dip_FREQ[5] + (2 * (double)dip_FREQ[7]) + (double)dip_FREQ[8]) / 2.0; // B
 	allele_FREQ[3] = ((double)dip_FREQ[1] + (double)dip_FREQ[3] + (2 * (double)dip_FREQ[4]) + (double)dip_FREQ[5] + (2 * (double)dip_FREQ[6]) + (double)dip_FREQ[8] + (2 * (double)dip_FREQ[9])) / 2.0; // b
+}
+
+void ALLELE_FREQ_COMP_STO(const unsigned int* dip_IND, double N, double* allele_FREQ) 
+{
+	allele_FREQ[0] = ((2 * (double)dip_IND[0]) + (2 * (double)dip_IND[1]) + (double)dip_IND[2] + (double)dip_IND[3] + (2 * (double)dip_IND[4]) + (double)dip_IND[5] + (double)dip_IND[6]) / (2 * N); // A
+	allele_FREQ[1] = ((double)dip_IND[2] + (double)dip_IND[3] + (double)dip_IND[5] + (double)dip_IND[6] + (2 * (double)dip_IND[7]) + (2 * (double)dip_IND[8]) + (2 * (double)dip_IND[9])) / (2 * N); // a
+	allele_FREQ[2] = ((2 * (double)dip_IND[0]) + (double)dip_IND[1] + (2 * (double)dip_IND[2]) + (double)dip_IND[3] + (double)dip_IND[5] + (2 * (double)dip_IND[7]) + (double)dip_IND[8]) / (2 * N); // B
+	allele_FREQ[3] = ((double)dip_IND[1] + (double)dip_IND[3] + (2 * (double)dip_IND[4]) + (double)dip_IND[5] + (2 * (double)dip_IND[6]) + (double)dip_IND[8] + (2 * (double)dip_IND[9])) / (2 * N); // b
 }
