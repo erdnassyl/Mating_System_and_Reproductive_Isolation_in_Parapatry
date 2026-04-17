@@ -149,7 +149,7 @@ int main(int, char* argv[]) {
      
     // Condition initialisation
     double dip_FREQ_1[10] ={0,0,0,0,1.0,0,0,0,0,0}; // AAbb continental fixed haplotype.
-    double dip_FREQ_2[10] = {0,0,0,0,0,0,0,1,0,0}; // aaBB island fixed haplotype.
+    double dip_FREQ_2[10] = {0,0,0,0,0.999,0,0,0.001,0,0}; // aaBB island fixed haplotype.
 
     double after_repro_1[10] = {};
     double after_repro_2[10] = {};
@@ -198,15 +198,39 @@ int main(int, char* argv[]) {
       REPRODUCTION_POP1(self_r_1, dip_FREQ_1, Me_Mu_Matrix_1, after_repro_1, m_h_1, dip_FREQ_2, Me_Mu_Matrix_2);
       REPRODUCTION_POP2(self_r_2, dip_FREQ_2, Me_Mu_Matrix_2, after_repro_2, m_h_2, dip_FREQ_1, Me_Mu_Matrix_1);
 
+      // { double sum = 0.0;
+      // for (int i = 0; i < 10; ++i) { std::cerr << after_repro_1[i] << " "; sum += after_repro_1[i]; }
+      // std::cerr << " Reproduction sum = " << sum << std::endl; }
+
+      // { double sum = 0.0;
+      // for (int i = 0; i < 10; ++i) { std::cerr << after_repro_2[i] << " "; sum += after_repro_2[i]; }
+      // std::cerr << " Reproduction sum = " << sum << std::endl; }
+
       // Selection
        double selected_1[10]={};
        double selected_2[10]={};
       SELECTION(after_repro_1,Fitness_1,selected_1); // Continent 
       SELECTION(after_repro_2,Fitness_2,selected_2); // Island
 
+      // { double sum = 0.0;
+      // for (int i = 0; i < 10; ++i) { std::cerr << selected_1[i] << " "; sum += selected_1[i]; }
+      // std::cerr << " Selection sum = " << sum << std::endl; }
+
+      // { double sum = 0.0;
+      // for (int i = 0; i < 10; ++i) { std::cerr << selected_2[i] << " "; sum += selected_2[i]; }
+      // std::cerr << " Selection sum = " << sum << std::endl; }
+
       // Migration
       SEED_MIGRATION_POP1(m_d_2, selected_1, selected_2, final_1);
       SEED_MIGRATION_POP2(m_d_1, selected_1, selected_2, final_2);
+
+      // { double sum = 0.0;
+      // for (int i = 0; i < 10; ++i) { std::cerr << final_1[i] << " "; sum += final_1[i]; }
+      // std::cerr << "Migration sum = " << sum << std::endl; }
+
+      // { double sum = 0.0;
+      // for (int i = 0; i < 10; ++i) { std::cerr << final_2[i] << " "; sum += final_2[i]; }
+      // std::cerr << "Migration sum = " << sum << std::endl; }
 
       // Storing the new allelic frequences
       for(int i=0; i<10; ++i) {
@@ -218,8 +242,8 @@ int main(int, char* argv[]) {
       ALLELE_FREQ_COMP(dip_FREQ_1, al_FREQ_1);
       ALLELE_FREQ_COMP(dip_FREQ_2, al_FREQ_2);
 
-      vector<double> deltas(3);
-      for (int i = 0; i < 3; ++i){
+      vector<double> deltas(4);
+      for (int i = 0; i < 4; ++i){
         deltas[i] = std::abs(al_FREQ_2[i] - pre_al_FREQ_2[i]); // deltas computations for island
       }
       
@@ -257,7 +281,7 @@ int main(int, char* argv[]) {
             
     outfile << "," << al_FREQ_1[0] << "," << al_FREQ_1[1] << "," << al_FREQ_1[2] << "," << al_FREQ_1[3];
     outfile << "," << al_FREQ_2[0] << "," << al_FREQ_2[1] << "," << al_FREQ_2[2] << "," << al_FREQ_2[3];
-      for (int i=(int)gen_FREQ_1.size()-1; (i>=0) && (((int)gen_FREQ_1.size()-1)-i<=span); --i) {
+      for (int i=0; i<(int)gen_FREQ_1.size() && i<=span; ++i) {
         for (int j(0); j<=9; ++j) {
           outfile << "," << gen_FREQ_1[i][j] << "," << gen_FREQ_2[i][j];
         }
