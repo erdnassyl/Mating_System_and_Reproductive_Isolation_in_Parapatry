@@ -163,6 +163,8 @@ int main(int, char* argv[]) {
     double final_2[10] = {};
     double al_FREQ_1[4] = {}; // Stores the new allelic frequences at the end of the cycle
     double al_FREQ_2[4] = {};
+	double selected_1[10]={};
+	double selection_2[10]={};
     
     unsigned long long int gen(0);
     bool isfin(0);
