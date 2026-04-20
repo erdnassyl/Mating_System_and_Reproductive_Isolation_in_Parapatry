@@ -27,7 +27,8 @@ touch Output_TL_BM_SC_STO.csv
 
 echo "Simulations starting..."
 
-
+for N1 in 10000; do
+ for N2 in 10000; do 
 for self_r_1 in 0; do
   for self_r_2 in $(seq 0 0.1 0.9); do
     for mu_1 in 0; do
@@ -55,6 +56,7 @@ for self_r_1 in 0; do
                                                 echo "Running..."
                                                 ./msri.exe \
                                                   ${threshold} ${iteration} ${span} ${interval} \
+                                                  ${N1} ${N2}\
                                                   ${self_r_1} ${self_r_2} \
                                                   ${mu_1} ${mu_2} \
                                                   ${ha_1} ${sa_1} ${hb_1} ${sb_1} ${epsilon_1_1} ${epsilon_3_1} ${epsilon_4_1} \
@@ -89,7 +91,7 @@ done
 echo "Simulations terminées !"
 
 # CSV Header
-printf "threshold,iteration,span,interval,self_r_1,self_r_2," > ColumnHeader_TL_BM_SC_STO.csv
+printf "threshold,iteration,span,interval,N1, N2, self_r_1,self_r_2," > ColumnHeader_TL_BM_SC_STO.csv
 printf "ha_2,sa_2,hb_2,sb_2,epsilon_1_2,epsilon_3_2,epsilon_4_2,rec_2," >> ColumnHeader_TL_BM_SC_STO.csv
 printf "m_h_1,m_h_2,m_d_1,m_d_2,gen," >> ColumnHeader_TL_BM_SC_STO.csv
 printf "A_FREQ_1,a_FREQ_1,B_FREQ_1,b_FREQ_1," >> ColumnHeader_TL_BM_SC_STO.csv
