@@ -241,7 +241,7 @@ int main(int, char* argv[]) {
  
     //Fill in output file
     std::ofstream outfile;
-    outfile.open("Output_TL_BM_SC.csv", std::ios_base::app);
+    outfile.open("Output_TL_BM_SC_STO.csv", std::ios_base::app);
     outfile << threshold << "," << N_iter << "," << span << "," << interval << "," << self_r_1 << "," << self_r_2 << ",";
     outfile << ha_2 << "," << sa_2 << "," << hb_2 << "," << sb_2 << "," << epsilon_1_2 << "," << epsilon_3_2 << "," << epsilon_4_2 << ","<< rec_2 << ",";
     outfile << m_h_1 << "," << m_h_2 << "," << m_d_1 << "," << m_d_2 << "," << gen;
