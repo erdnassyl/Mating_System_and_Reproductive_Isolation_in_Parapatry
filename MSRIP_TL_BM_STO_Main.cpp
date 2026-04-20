@@ -196,12 +196,39 @@ int main(int, char* argv[]) {
       }
    
       // Reproduction 
-      REPRODUCTION_POP1(self_r_1, dip_IND1, Me_Mu_Matrix_1, after_repro_1, m_h_1, dip_IND2, Me_Mu_Matrix_2);
-      REPRODUCTION_POP2(self_r_2, dip_IND2, Me_Mu_Matrix_2, after_repro_2, m_h_2, dip_IND1, Me_Mu_Matrix_1);
+      REPRODUCTION_POP1_STO(self_r_1, dip_IND1, Me_Mu_Matrix_1, after_repro_1, m_h_1, dip_IND2, Me_Mu_Matrix_2);
+      REPRODUCTION_POP2_STO(self_r_2, dip_IND2, Me_Mu_Matrix_2, after_repro_2, m_h_2, dip_IND1, Me_Mu_Matrix_1);
 
       // Selection
       double selected_1[10]={};
       double selected_2[10]={};
+	// Seed genotypes produced through outcrossing local
+	double local_ovule[4] = {};
+	double local_pollen[4] = {};
+	GAMETE_PROD_STO(dip_IND_2, Me_Mu_Matrix_2, local_ovule);
+	GAMETE_PROD_STO(dip_IND_2, Me_Mu_Matrix_2, local_pollen);
+
+	double out_local_dip_2[10] = {};
+	out_local_dip_2[0] = local_ovule[0] * local_pollen[0];
+	out_local_dip_2[1] = local_ovule[0] * local_pollen[1] + local_ovule[1] * local_pollen[0]; 
+	out_local_dip_2[2] = local_ovule[0] * local_pollen[2] + local_ovule[2] * local_pollen[0];
+	out_local_dip_2[3] = local_ovule[0] * local_pollen[3] + local_ovule[3] * local_pollen[0];
+	out_local_dip_2[4] = local_ovule[1] * local_pollen[1];
+	out_local_dip_2[5] = local_ovule[1] * local_pollen[2] + local_ovule[2] * local_pollen[1];
+	out_local_dip_2[6] = local_ovule[1] * local_pollen[3] + local_ovule[3] * local_pollen[1];
+	out_local_dip_2[7] = local_ovule[2] * local_pollen[2];
+	out_local_dip_2[8] = local_ovule[2] * local_pollen[3] + local_ovule[3] * local_pollen[2];
+	out_local_dip_2[9] = local_ovule[3] * local_pollen[3];
+
+	double out_local_SUM_2(0.0);
+	for (int i(0); i < 10; ++i) { out_local_SUM_2 += out_local_dip_2[i]; }
+	double out_local_FREQ_2[10];
+	for (int i(0); i < 10; ++i) { out_local_FREQ_2[i] = out_local_dip_2[i] / out_local_SUM_2; }
+
+	// Seed genotypes produced through outcrossing immigrants
+	double immigrant_pollen[4] = {};
+	GAMETE_PROD_STO(dip_IND_1, Me_Mu_Matrix_1,immigrant_pollen);
+
       SELECTION(after_repro_1,Fitness_1,selected_1); // Continent 
       SELECTION(after_repro_2,Fitness_2,selected_2); // Island
 
@@ -210,11 +237,8 @@ int main(int, char* argv[]) {
       SEED_MIGRATION_POP2(m_d_1, selected_1, selected_2, final_2);
 
       // Drift 
-      DRIFT(r, N1, final_1, dip_IND1)
-      DRIFT(r, N2, final_2, dip_IND2)
-
-      // Voir quoi faire en conditions stop 
-      // Mettre un nombre de générations et c'est tout 
+      DRIFT(r, N1, final_1, dip_IND1);
+      DRIFT(r, N2, final_2, dip_IND2);
 
       //Stop conditions
         if (gen >= threshold){
