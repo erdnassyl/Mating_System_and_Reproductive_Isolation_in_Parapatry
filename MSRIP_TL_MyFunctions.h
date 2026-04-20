@@ -313,7 +313,7 @@ void REPRODUCTION_POP1_STO(const double self_r_1, const unsigned int dip_IND_1[1
 		((1 - self_r_1) * m_h_1 * out_im_FREQ_1[i]));
 	}
 }
-void REPRODUCTION_POP2_STO(const double self_r_2, const unsignet int dip_IND_2[10], const double Me_Mu_Matrix_2[][4], double* dip_FREQ_2,const double m_h_2, const unsigned int dip_IND_1[10], const double Me_Mu_Matrix_1[][4])
+void REPRODUCTION_POP2_STO(const double self_r_2, const unsigned int dip_IND_2[10], const double Me_Mu_Matrix_2[][4], double* dip_FREQ_2,const double m_h_2, const unsigned int dip_IND_1[10], const double Me_Mu_Matrix_1[][4])
 {	// Seed genotypes produced through selfing
 	double self_dip[10] = {};
 	for (int i(0); i < 10; ++i) {
