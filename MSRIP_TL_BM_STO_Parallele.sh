@@ -1,4 +1,16 @@
 #!/bin/bash
+#SBATCH --job-name=msrip
+#SBATCH -n 11
+#SBATCH --time=72:00:00 
+#SBATCH --men=1G
+#SBATCH --partition=ecobio
+#SBATCH
+
+#
+. /local/env/envconda.sh
+conda activate /home/genouest/cnrs_umr6553/lymarchand/my_env
+. /local/env/envparallel-20190122.sh
+cd /home/genouest/cnrs_umr6553/lymarchand/my_env/MSRI/
 
 # Script local pour PC - adaptation de MSRIP_TL_BM_Parallel.sh
 # Script pour Secondary Contact case
@@ -10,7 +22,8 @@ rm -f ./Output*.csv
 
 # Compilation 
 echo "Compilation loading..."
-g++ -O3 -Wall -Wextra -std=c++11 -I/mingw64/include -L/mingw64/lib -o msri.exe ./MSRIP_TL_BM_STO_Main.cpp -lgsl -lgslcblas -lm
+g++ -L/lib64 -lgsl -lgslcblas -lm -O3 -I /local/boost/1.61/ -Wall -Wextra -o msri -c ./MSRIP_TL_BM_STO_Main.cpp -std=c++11
+g++ ./msri -lgsl -lgslcblas -lm
 
 if [ $? -ne 0 ]; then
     echo "ERROR : compilation failed."
@@ -18,8 +31,8 @@ if [ $? -ne 0 ]; then
 fi
 
 # Paramètres fixes
-threshold=9999
-iteration=10
+threshold=99999
+iteration=1000
 span=100
 interval=10
 
