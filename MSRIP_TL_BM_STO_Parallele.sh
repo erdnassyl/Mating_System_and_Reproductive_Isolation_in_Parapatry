@@ -2,7 +2,8 @@
 #SBATCH --job-name=msrip
 #SBATCH -n 11
 #SBATCH --time=72:00:00 
-#SBATCH --men=1G
+#SBATCH --mem=1G
+#SBATCH --output=/home/genouest/cnrs_umr6553/lymarchand/msrip_%j.log
 #SBATCH --partition=ecobio
 #SBATCH
 
@@ -10,7 +11,7 @@
 . /local/env/envconda.sh
 conda activate /home/genouest/cnrs_umr6553/lymarchand/my_env
 . /local/env/envparallel-20190122.sh
-cd /home/genouest/cnrs_umr6553/lymarchand/my_env/MSRI/
+cd /home/genouest/cnrs_umr6553/lymarchand/my_env/MSRIP/
 
 # Script local pour PC - adaptation de MSRIP_TL_BM_Parallel.sh
 # Script pour Secondary Contact case
