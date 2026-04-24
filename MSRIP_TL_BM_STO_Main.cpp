@@ -153,18 +153,18 @@ int main(int, char* argv[]) {
   for (int k(0); k < (int)N_iter; ++k) {
      
     // Condition initialisation
-    double dip_FREQ_1[10] ={};
-    double dip_FREQ_2[10] = {}; 
-    unsigned int dip_IND1[10] = { N1 };
-    unsigned int dip_IND2[10] = { N2 };
+    double dip_FREQ_1[10] ={0,0,0,0,1.0,0,0,0,0,0};
+    double dip_FREQ_2[10] ={0,0,0,0,0,0,0,1.0,0,0}; 
+    unsigned int dip_IND1[10] = { 0,0,0,0,N1,0,0,0,0,0 };
+    unsigned int dip_IND2[10] = { 0,0,0,0,0,0,0,N2,0,0 };
     double after_repro_1[10] = {};
     double after_repro_2[10] = {};
     double final_1[10] = {};
     double final_2[10] = {};
     double al_FREQ_1[4] = {}; // Stores the new allelic frequences at the end of the cycle
     double al_FREQ_2[4] = {};
-	double selected_1[10]={};
-	double selected_2[10]={};
+	  double selected_1[10]={};
+  	double selected_2[10]={};
     
     unsigned long long int gen(0);
     bool isfin(0);
@@ -198,7 +198,7 @@ int main(int, char* argv[]) {
       REPRODUCTION_POP1_STO(self_r_1, dip_IND1, Me_Mu_Matrix_1, after_repro_1, m_h_1, dip_IND2, Me_Mu_Matrix_2);
       REPRODUCTION_POP2_STO(self_r_2, dip_IND2, Me_Mu_Matrix_2, after_repro_2, m_h_2, dip_IND1, Me_Mu_Matrix_1);
 		
-	 // Selection
+	    // Selection
       SELECTION(after_repro_1,Fitness_1,selected_1); // Continent 
       SELECTION(after_repro_2,Fitness_2,selected_2); // Island
 
@@ -207,8 +207,13 @@ int main(int, char* argv[]) {
       SEED_MIGRATION_POP2(m_d_1, selected_1, selected_2, final_2);
 
       // Drift 
-      DRIFT(r, N1, final_1, dip_IND1);
+      // DRIFT(r, N1, final_1, dip_IND1);
       DRIFT(r, N2, final_2, dip_IND2);
+
+      for (int i = 0; i < 10; ++i) {
+        dip_FREQ_1[i] = (double)dip_IND1[i] / N1;
+        dip_FREQ_2[i] = (double)dip_IND2[i] / N2;
+      }
 
       //Stop conditions
         if (gen >= threshold){
