@@ -9,7 +9,7 @@
 
 #
 . /local/env/envconda.sh
-conda activate /home/genouest/cnrs_umr6553/lymarchand/my_env
+conda activate /home/genouest/cnrs_umr6553/lymarchand/msrip
 . /local/env/envparallel-20190122.sh
 cd /home/genouest/cnrs_umr6553/lymarchand/my_env/MSRIP/
 
