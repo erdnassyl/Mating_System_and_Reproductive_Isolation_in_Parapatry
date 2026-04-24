@@ -18,19 +18,19 @@ if [ $? -ne 0 ]; then
 fi
 
 # Paramètres fixes
-threshold=1000000
-iteration=1
-span=0
+threshold=9999
+iteration=10
+span=100
 interval=10
 
 touch Output_TL_BM_SC_STO.csv
 
 echo "Simulations starting..."
 
-for N1 in 10000; do
-  for N2 in 10000; do
+for N1 in 1000; do
+  for N2 in 1000; do
     for self_r_1 in 0; do
-      for self_r_2 in $(seq 0 0.1 0.9); do
+      for self_r_2 in 0; do
         for mu_1 in 0; do
           for mu_2 in 0; do
             for ha_1 in 0.5; do
@@ -51,9 +51,9 @@ for N1 in 10000; do
                                           for rec_2 in 0.001 0.01 0.1 0.5; do
                                             for m_h_1 in 0; do    # flux du continent vers l'île
                                               for m_h_2 in 0; do  # flux de l'île vers le continent
-                                                for m_d_1 in $(seq 0.01 0.0001 0.2); do
+                                                for m_d_1 in $(seq 0.01 0.001 0.2); do
                                                   for m_d_2 in 0; do
-                                                    echo "Running..."
+                                                    echo "Running m_d_1=${m_d_1}, self_r_2=${self_r_2}..."
                                                     ./msri.exe \
                                                       ${threshold} ${iteration} ${span} ${interval} \
                                                       ${N1} ${N2} \
@@ -101,10 +101,18 @@ printf "A_FREQ_2,a_FREQ_2,B_FREQ_2,b_FREQ_2," >> ColumnHeader_TL_BM_SC_STO.csv
 printf "ABAB_0_pop1,ABAB_0_pop2,ABAb_0_pop1,ABAb_0_pop2,ABaB_0_pop1,ABaB_0_pop2,ABab_0_pop1,ABab_0_pop2,AbAb_0_pop1,AbAb_0_pop2,AbaB_0_pop1,AbaB_0_pop2,Abab_0_pop1,Abab_0_pop2,aBaB_0_pop1,aBaB_0_pop2,aBab_0_pop1,aBab_0_pop2,abab_0_pop1,abab_0_pop2" >> ColumnHeader_TL_BM_SC_STO.csv
 
 counter=1
-while [ $counter -le $span ]
+while [ $counter -lt $span ]
 do
-  printf ",AB/AB_-"$((interval*counter))"_pop1,AB/Ab_-"$((interval*counter))"_pop1,AB/aB_-"$((interval*counter))"_pop1,AB/ab_-"$((interval*counter))"_pop1,Ab/Ab_-"$((interval*counter))"_pop1,Ab/aB_-"$((interval*counter))"_pop1,Ab/ab_-"$((interval*counter))"_pop1,aB/aB_-"$((interval*counter))"_pop1,aB/ab_-"$((interval*counter))"_pop1,ab/ab_-"$((interval*counter))"_pop1" >> ColumnHeader_TL_BM_SC_STO.csv
-  printf ",AB/AB_-"$((interval*counter))"_pop2,AB/Ab_-"$((interval*counter))"_pop2,AB/aB_-"$((interval*counter))"_pop2,AB/ab_-"$((interval*counter))"_pop2,Ab/Ab_-"$((interval*counter))"_pop2,Ab/aB_-"$((interval*counter))"_pop2,Ab/ab_-"$((interval*counter))"_pop2,aB/aB_-"$((interval*counter))"_pop2,aB/ab_-"$((interval*counter))"_pop2,ab/ab_-"$((interval*counter))"_pop2" >> ColumnHeader_TL_BM_SC_STO.csv
+  printf ",ABAB_"$((interval*counter))"_pop1,ABAB_"$((interval*counter))"_pop2" >> ColumnHeader_TL_BM_SC_STO.csv
+  printf ",ABAb_"$((interval*counter))"_pop1,ABAb_"$((interval*counter))"_pop2" >> ColumnHeader_TL_BM_SC_STO.csv
+  printf ",ABaB_"$((interval*counter))"_pop1,ABaB_"$((interval*counter))"_pop2" >> ColumnHeader_TL_BM_SC_STO.csv
+  printf ",ABab_"$((interval*counter))"_pop1,ABab_"$((interval*counter))"_pop2" >> ColumnHeader_TL_BM_SC_STO.csv
+  printf ",AbAb_"$((interval*counter))"_pop1,AbAb_"$((interval*counter))"_pop2" >> ColumnHeader_TL_BM_SC_STO.csv
+  printf ",AbaB_"$((interval*counter))"_pop1,AbaB_"$((interval*counter))"_pop2" >> ColumnHeader_TL_BM_SC_STO.csv
+  printf ",Abab_"$((interval*counter))"_pop1,Abab_"$((interval*counter))"_pop2" >> ColumnHeader_TL_BM_SC_STO.csv
+  printf ",aBaB_"$((interval*counter))"_pop1,aBaB_"$((interval*counter))"_pop2" >> ColumnHeader_TL_BM_SC_STO.csv
+  printf ",aBab_"$((interval*counter))"_pop1,aBab_"$((interval*counter))"_pop2" >> ColumnHeader_TL_BM_SC_STO.csv
+  printf ",abab_"$((interval*counter))"_pop1,abab_"$((interval*counter))"_pop2" >> ColumnHeader_TL_BM_SC_STO.csv
   counter=$(($counter+1))
 done
 
