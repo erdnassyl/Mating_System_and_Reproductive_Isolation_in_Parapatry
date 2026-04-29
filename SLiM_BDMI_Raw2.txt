@@ -1,0 +1,151 @@
+//Functions
+function (f) Calc_Hybrid_Fitness(o<Subpopulation> subpop1, o<Subpopulation> subpop2, i n)
+{
+inds1 = subpop1.individuals;
+inds2 = subpop2.individuals;
+
+fits = c();
+
+for (rep in seqLen(n)){
+parent1 = sample(inds1, 1);
+parent2 = sample(inds2, 1);
+
+hap1 = sample(c(parent1.haploidGenome1, parent1.haploidGenome2), 1);
+hap2 = sample(c(parent2.haploidGenome1, parent2.haploidGenome2), 1);
+
+fit = 1.0;
+
+muts = c(hap1.mutations, hap2.mutations);
+
+m2s = muts[muts.mutationType == m2];
+m3s = muts[muts.mutationType == m3];
+
+for (mut2 in m2s){
+partners = m3s[(m3s.id - mut2.id) % 10 ==0];
+
+for (mut3 in partners){
+n2 = asInteger(hap1.containsMutations(mut2)) + asInteger(hap2.containsMutations(mut2));
+n3 = asInteger(hap1.containsMutations(mut3)) + asInteger(hap2.containsMutations(mut3));
+n_BDMi = n2 * n3;
+fit = fit* (1-  (gamma* n_BDMi));
+}
+}
+fits = c(fits, fit);
+}
+return mean(fits);
+}
+
+
+function (f) Calc_Fitness_BDMi(o<Individual> ind)
+{
+fit = 1.0;
+muts2 = c(ind.haploidGenome1.mutationsOfType(m2),ind.haploidGenome2.mutationsOfType(m2));
+muts3 = c(ind.haploidGenome1.mutationsOfType(m3),ind.haploidGenome2.mutationsOfType(m3));
+for (mut2 in muts2)
+{
+partners = muts3[(muts3.id - mut2.id) % 10 == 0];
+for (mut3 in partners)
+{
+n2 = asInteger(ind.haploidGenome1.containsMutations(mut2)) + asInteger(ind.haploidGenome2.containsMutations(mut2));
+n3 = asInteger(ind.haploidGenome1.containsMutations(mut3)) + asInteger(ind.haploidGenome2.containsMutations(mut3));
+n_BDMi = n2 * n3;
+fit = fit* (1-  (0.5* gamma) * n_BDMi);
+}
+}
+return fit;
+}
+
+
+///Initializing
+initialize() {
+defineConstant("mu_m1", 1e-9); //Mutation rate
+defineConstant("mu_m2", 1e-9);
+defineConstant("mu_m3", 1e-9);
+defineConstant("h_m1", 0.5);
+defineConstant("s_m1", 0);
+defineConstant("h_m2", 0.5);
+defineConstant("s_m2", 0);
+defineConstant("h_m3", 0.5);
+defineConstant("s_m3", 0);
+defineConstant("L", 1e5); //Chromosome Length
+defineConstant("rec", 1e-5); //Recombination rate 
+defineConstant("N", 1000); 
+defineConstant("mig", 0.02); // Migration rate 0.02 | 0.06
+defineConstant("sr",0.9); // Selfing rate 0 | 0.3| 0.6| 0.9
+defineConstant("gamma", 0.02);
+
+initializeMutationRate(mu_m1+mu_m2+mu_m3);
+initializeMutationType("m1",h_m1,"f",s_m1); //neutral
+initializeMutationType("m2",h_m2,"f",s_m2); //BDMi
+initializeMutationType("m3",h_m3,"f",s_m3); //BDMi
+
+m1.mutationStackPolicy="f";
+m2.mutationStackPolicy="f";
+m3.mutationStackPolicy="f";
+
+m1.convertToSubstitution = T;
+m2.convertToSubstitution = F;
+m3.convertToSubstitution = F;
+
+initializeGenomicElementType("g1",c(m1,m2,m3),c(mu_m1, mu_m2,mu_m3));
+initializeGenomicElement(g1,0,L-1);
+initializeRecombinationRate(rec);
+}
+
+//Demographic burn-in
+1 early() {
+sim.addSubpop("p0", N);
+}
+
+1:10000 fitnessEffect(){
+fit=1;
+fit = fit * Calc_Fitness_BDMi(individual);
+return fit;
+}
+
+2000 early() /* end burn-in */ {
+p0.setSubpopulationSize(asInteger(N));
+}
+
+4000 early() {
+sim.addSubpopSplit("p1", asInteger(N), p0);
+sim.addSubpopSplit("p2", asInteger(N), p0);
+p0.setSubpopulationSize(0); 
+
+p1.setSelfingRate(sr);
+p2.setSelfingRate(sr);
+p1.setMigrationRates(p2,mig);
+p2.setMigrationRates(p1, mig);
+
+log = community.createLogFile("sim_log.csv", logInterval=100);
+log.addCycle();
+log.addCustomColumn("FST", "calcFST(p1.haplosomes, p2.haplosomes);");
+log.addCustomColumn("HybridFitness", "Calc_Hybrid_Fitness(p1, p2, 50);");
+}
+
+//Epistasis
+4000:10000 mutationEffect(m2){
+fit = 1.0; 
+
+if (individual.subpopulation == p1)
+fit = fit * 1.02;
+else if (individual.subpopulation == p2)
+fit = fit * 0.98;
+
+return fit;
+} 
+
+4000:10000 mutationEffect(m3){
+fit = 1.0;
+if (individual.subpopulation == p1)
+fit = fit * 0.98;
+else if (individual.subpopulation == p2)
+fit = fit * 1.02;
+
+return fit;
+} 
+
+
+10000 late(){
+sim.outputFull();
+}

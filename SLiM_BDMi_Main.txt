@@ -1,0 +1,93 @@
+///Initializing
+initialize() {
+defineConstant("mu_m1", 1e-9); //Mutation rate
+defineConstant("mu_m2", 1e-9);
+defineConstant("mu_m3", 1e-9);
+defineConstant("h_m1", 0.5);
+defineConstant("s_m1", 0);
+defineConstant("h_m2", 0.5);
+defineConstant("s_m2", 0);
+defineConstant("h_m3", 0.5);
+defineConstant("s_m3", 0);
+defineConstant("L", 1e5); //Chromosome Length
+defineConstant("rec", 1e-5); //Recombination rate 
+defineConstant("N", 1000); 
+defineConstant("mig", 0.02); // Migration rate 0.02 | 0.06
+defineConstant("sr",0); // Selfing rate 0 | 0.3| 0.6| 0.9
+defineConstant("gamma", 0.02);
+
+initializeMutationRate(mu_m1+mu_m2+mu_m3);
+initializeMutationType("m1",h_m1,"f",s_m1); //neutral
+initializeMutationType("m2",h_m2,"f",s_m2); //BDMi
+initializeMutationType("m3",h_m3,"f",s_m3); //BDMi
+
+m1.mutationStackPolicy="f";
+m2.mutationStackPolicy="f";
+m3.mutationStackPolicy="f";
+
+m1.convertToSubstitution = T;
+m2.convertToSubstitution = F;
+m3.convertToSubstitution = F;
+
+initializeGenomicElementType("g1",c(m1,m2,m3),c(mu_m1, mu_m2,mu_m3));
+initializeGenomicElement(g1,0,L-1);
+initializeRecombinationRate(rec);
+}
+
+//Demographic burn-in
+1 early() {
+sim.addSubpop("p0", N);
+}
+
+1:10000 fitnessEffect(){
+fit=1;
+fit = fit * Calc_Fitness_BDMi(individual);
+return fit;
+}
+
+2000 early() /* end burn-in */ {
+p0.setSubpopulationSize(asInteger(N));
+}
+
+4000 early() {
+sim.addSubpopSplit("p1", asInteger(N), p0);
+sim.addSubpopSplit("p2", asInteger(N), p0);
+p0.setSubpopulationSize(0); 
+
+p1.setSelfingRate(sr);
+p2.setSelfingRate(sr);
+p1.setMigrationRates(p2,mig);
+p2.setMigrationRates(p1, mig);
+
+log = community.createLogFile("sim_log.csv", logInterval=100);
+log.addCycle();
+log.addCustomColumn("FST", "calcFST(p1.haplosomes, p2.haplosomes);");
+log.addCustomColumn("HybridFitness", "Calc_Hybrid_Fitness(p1, p2, 50);");
+}
+
+//Epistasis
+4000:10000 mutationEffect(m2){
+fit = 1.0; 
+
+if (individual.subpopulation == p1)
+fit = fit * 1.02;
+else if (individual.subpopulation == p2)
+fit = fit * 0.98;
+
+return fit;
+} 
+
+4000:10000 mutationEffect(m3){
+fit = 1.0;
+if (individual.subpopulation == p1)
+fit = fit * 0.98;
+else if (individual.subpopulation == p2)
+fit = fit * 1.02;
+
+return fit;
+} 
+
+
+10000 late(){
+sim.outputFull();
+}
