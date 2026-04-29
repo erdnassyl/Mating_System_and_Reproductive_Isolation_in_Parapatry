@@ -121,6 +121,8 @@ log = community.createLogFile("sim_log.csv", logInterval=100);
 log.addCycle();
 log.addCustomColumn("FST", "calcFST(p1.haplosomes, p2.haplosomes);");
 log.addCustomColumn("HybridFitness", "Calc_Hybrid_Fitness(p1, p2, 50);");
+log.addCustomColumn("Sr", "sr;");
+log.addCustomColumn("Migration", "mig;");
 }
 
 //Epistasis
