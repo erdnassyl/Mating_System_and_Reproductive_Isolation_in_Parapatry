@@ -423,7 +423,33 @@ void DRIFT(const gsl_rng* r, const unsigned int N, const double dip_FREQ[], unsi
 {
 	gsl_ran_multinomial(r, 10, N, dip_FREQ, dip_IND);
 }
+void DRIFT_WITH_DIRICHLET(const gsl_rng* r, const double Dirichlet_Cst, const unsigned int N, double* dip_FREQ, unsigned int* dip_IND)
+{
+	for (int i(0); i < 10; ++i) { /*mutiply seed frequencies by the Dirichlet multiplier*/
+		dip_FREQ[i] = Dirichlet_Cst * dip_FREQ[i];
+	}
 
+	double adults_FREQ_BIS[10] = {}; /*create an empty array for the Dirichlet output*/
+
+	gsl_ran_dirichlet(r, 10, dip_FREQ, adults_FREQ_BIS); /*Dirichlet sampling*/
+
+	gsl_ran_multinomial(r, 10, N, adults_FREQ_BIS, dip_IND);
+}
+// Define Dirichlet functions given N
+void DIRICHLET_CURVED(const unsigned int N, double Dirichlet[11])
+{
+	Dirichlet[0] = 0.0769231 * ((double)-1250 + (double)1237 * N);
+	Dirichlet[1] = 0.037037 * ((double)-10000 + (double)9973 * N);
+	Dirichlet[2] = 1e5 * N;
+	Dirichlet[3] = 0.333333 * ((double)-1250 + (double)1247 * N);
+	Dirichlet[4] = 0.00917431 * ((double)-10000 + (double)9891 * N);
+	Dirichlet[5] = 0.00355872 * ((double)-10000 + (double)9719 * N);
+	Dirichlet[6] = 0.00341297 * ((double)-5000 + (double)4707 * N);
+	Dirichlet[7] = 0.000887311 * ((double)-10000 + (double)8873 * N);
+	Dirichlet[8] = 0.000465766 * ((double)-10000 + (double)7853 * N);
+	Dirichlet[9] = 0.000232937 * ((double)-10000 + (double)5707 * N);
+	Dirichlet[10] = 0.000115701 * ((double)-10000 + (double)1357 * N);
+}
 // Compute allele frequencies
 void ALLELE_FREQ_COMP(const double* dip_FREQ, double* allele_FREQ) 
 {
