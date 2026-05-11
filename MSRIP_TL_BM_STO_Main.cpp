@@ -126,6 +126,9 @@ int main(int, char* argv[]) {
   m_d_1=atof(argv[29]);
   m_d_2=atof(argv[30]);
 
+   double Dirichlet[11] = { 0,0,0,0,0,0,0,0,0,0,0 };
+  DIRICHLET_CURVED(N2, Dirichlet);
+
   //////// MEIOSIS_MUTATION MATRICES AND FITNESS
   
   // Compute the Meiosis_Mutation Matrix for population 1 
@@ -208,7 +211,7 @@ int main(int, char* argv[]) {
 
       // Drift 
       // DRIFT(r, N1, final_1, dip_IND1);
-      DRIFT(r, N2, final_2, dip_IND2);
+      DRIFT_WITH_DIRICHLET(r, Dirichlet[int(self_r_2*10)], N2, final_2, dip_IND2);
 
       for (int i = 0; i < 10; ++i) {
         dip_FREQ_1[i] = (double)dip_IND1[i] / N1;
